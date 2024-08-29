@@ -5,14 +5,5 @@ from helper import iterations, random_list_generator, time_test
 @iterations(1000, input_generator=random_list_generator(100, 10000))
 # @time_test([1]*100)
 def run(lst):
-    if not len(lst):
-        lst = [1,2,3]
-
-    s = 0
-    out = []
-    n = len(lst)
-    for i in range(n):
-        s += lst[i]
-        out.append(s/(i+1))
-    # print(out)
+    pass
 run()
