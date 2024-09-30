@@ -784,13 +784,13 @@ class TestConnections(unittest.TestCase):
             self.assertTrue(connections.check_if_related('2', str(i+1), int(i/2)))
             self.assertTrue(connections.check_if_related('2', str(i+2), int(i/1.5)))
 
-    # def test_cyclic_connections(self):
-    #     connections = Connections()
-    #     # Cyclic connections with no end
-    #     connections.add_connection("Benoit Mandelbrot", "Gottfried Leibniz")
-    #     connections.add_connection('Gottfried Leibniz', 'Karl Weierstrass')
-    #     connections.add_connection('Karl Weierstrass', 'Benoit Mandelbrot')
-    #     self.assertFalse(connections.check_if_related('Benoit Mandelbrot', 'Georg Cantor', float('inf')))
+    def test_cyclic_connections(self):
+        connections = Connections()
+        # Cyclic connections with no end
+        connections.add_connection("Benoit Mandelbrot", "Gottfried Leibniz")
+        connections.add_connection('Gottfried Leibniz', 'Karl Weierstrass')
+        connections.add_connection('Karl Weierstrass', 'Benoit Mandelbrot')
+        self.assertFalse(connections.check_if_related('Benoit Mandelbrot', 'Georg Cantor', float('inf')))
    
 
 if __name__ == '__main__':

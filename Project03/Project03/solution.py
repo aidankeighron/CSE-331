@@ -178,19 +178,28 @@ class HashTable:
 
     def __len__(self) -> int:
         """
-        FILL OUT DOCSTRING
+        Gets the number of elements in the HashTable
+        
+        :return: length of HashTable.
         """
         return self.size
 
     def __setitem__(self, key: str, value: T) -> None:
         """
-        FILL OUT DOCSTRING
+        Inserts or sets the value of the item at the provided key
+
+        :param key: key to set or insert.
+        :param value: value for element.
+        :return: None.
         """
         self._insert(key, value)
 
     def __getitem__(self, key: str) -> T:
         """
-        FILL OUT DOCSTRING
+        Gets value of element at the provided key raising a KeyError if key does not exist
+
+        :param key: key of item to get.
+        :return: value of item at key.
         """
         item = self._get(key)
         if not item:
@@ -199,7 +208,10 @@ class HashTable:
 
     def __delitem__(self, key: str) -> None:
         """
-        FILL OUT DOCSTRING
+        Deletes item at key raising a KeyError if the key does not exist
+
+        :param key: key of item to delete.
+        :return: None.
         """
         item = self._get(key)
         if not item:
@@ -209,14 +221,21 @@ class HashTable:
 
     def __contains__(self, key: str) -> bool:
         """
-        FILL OUT DOCSTRING
+        Checks if key is in the HashTable
+
+        :param key: key to check.
+        :return: True if element was found else Fase.
         """
         item = self._get(key)
         return bool(item)
 
     def _hash(self, key: str, inserting: bool = False) -> int:
         """
-        FILL OUT DOCSTRING
+        Finds hashed index of key making sure to do collision checks
+
+        :param key: key to hash.
+        :param inserting: toggle for inserting collision checks.
+        :return: index of key.
         """
         index = self._hash_1(key)
         step = self._hash_2(key)
@@ -236,7 +255,10 @@ class HashTable:
 
     def _insert(self, key: str, value: T) -> None:
         """
-        FILL OUT DOCSTRING
+        Inserts or sets the value of the item at the provided key
+
+        :param key: key to set or insert.
+        :param value: value for element.
         """
         item = self._get(key)
         if item:
@@ -251,7 +273,10 @@ class HashTable:
 
     def _get(self, key: str) -> Optional[HashNode]:
         """
-        FILL OUT DOCSTRING
+        Gets value of element at the provided key
+
+        :param key: key of item to get.
+        :return: item at key.
         """
         index = self._hash(key)
         item = self.table[index]
@@ -261,7 +286,10 @@ class HashTable:
 
     def _delete(self, key: str) -> None:
         """
-        FILL OUT DOCSTRING
+        Deletes item at key
+
+        :param key: key of item to delete.
+        :return: None.
         """
         item = self._get(key)
         if not item:
@@ -273,7 +301,9 @@ class HashTable:
 
     def _grow(self) -> None:
         """
-        FILL OUT DOCSTRING
+        Doubles size of HashTable remapping all elements to their new indexes
+
+        :return: None.
         """
         self.capacity *= 2
         self.size = 0
@@ -289,7 +319,10 @@ class HashTable:
 
     def update(self, pairs: List[Tuple[str, T]] = []) -> None:
         """
-        FILL OUT DOCSTRING
+        For each element in pairs updates or inserts it into the HashTable
+
+        :param paris: items to update.
+        :return: None.
         """
         for (key, value) in pairs:
             item = self._get(key)
@@ -300,7 +333,9 @@ class HashTable:
 
     def keys(self) -> List[str]:
         """
-        FILL OUT DOCSTRING
+        Returns list of all keys in HashTable
+
+        :return: list of all keys.
         """
         keys = []
         for item in self.table:
@@ -311,7 +346,10 @@ class HashTable:
 
     def values(self) -> List[T]:
         """
-        FILL OUT DOCSTRING
+        Returns list of all values in HashTable
+
+        :param key: .
+        :return: list of all values.
         """
         keys = []
         for item in self.table:
@@ -322,7 +360,9 @@ class HashTable:
 
     def items(self) -> List[Tuple[str, T]]:
         """
-        FILL OUT DOCSTRING
+        Returns list of all keys and values in HashTable
+
+        :return: list of all keys and values.
         """
         keys = []
         for item in self.table:
@@ -333,7 +373,9 @@ class HashTable:
 
     def clear(self) -> None:
         """
-        FILL OUT DOCSTRING
+        Clears the HashTable resetting all its values
+        
+        :return: None.
         """
         self.size = 0
         self.table: List[Optional[HashNode]] = [None] * self.capacity
@@ -355,7 +397,11 @@ class Connections:
 
     def add_connection(self, name: str, friend: str) -> None:
         """
-        FILL OUT DOCSTRING
+        Adds a connection between name and friend
+
+        :param name: name of contact to add friend to.
+        :param friend: friend to add to contact.
+        :return: None.
         """
         if name not in self.contacts:
             self.contacts[name] = []
@@ -365,11 +411,16 @@ class Connections:
 
     def check_if_related(self, p1: str, p2: str, n: int) -> bool:
         """
-        FILL OUT DOCSTRING
+        Checks if p1 is related to p2 within n depth of connections
+
+        :param p1: Person to check for relation to p2.
+        :param p2: Person to make sure is related to p1.
+        :return: True if they are related else False.
         """
         if p1 == p2:
             return True
         people = deque()
+        seen = set()
         people.append([p1, 1])
         while people:
             (person, depth) = people.pop()
@@ -378,8 +429,9 @@ class Connections:
 
             if p2 in self.contacts[person]:
                 return True
-            
+            seen.add(person)
             for p in self.contacts[person]:
-                people.append([p, depth+1])
+                if p not in seen:
+                    people.append([p, depth+1])
         
         return False
