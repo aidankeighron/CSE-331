@@ -289,92 +289,92 @@ class CircularDequeTests(unittest.TestCase):
             self.assertEqual(i + 2, len(cd))
             self.assertEqual(100, cd.capacity)
 
-    # def test_front_enqueue(self):
-    #     """
-    #     Tests front_enqueue and grow functionality
-    #     """
-    #     # Test 1: Front_enqueue, multiple grows with 50 elements starting with default capacity
-    #     cd = CircularDeque()
-    #     for element in range(1, 51):
-    #         cd.enqueue(element)
-    #         # Test capacity of the dequeue while it grows
-    #         # If this fails it means you dequeue is not properly growing
-    #         if element < 4:
-    #             self.assertEqual(4, cd.capacity)
-    #         elif element < 8:
-    #             self.assertEqual(8, cd.capacity)
-    #         elif element < 16:
-    #             self.assertEqual(16, cd.capacity)
-    #         elif element < 32:
-    #             self.assertEqual(32, cd.capacity)
-    #         else:
-    #             self.assertEqual(64, cd.capacity)
-    #     # check the position of elements in the dequeue
-    #     self.assertEqual(list(range(32, 0, -1)) + [None] * 14 + list(range(50, 32, -1)), cd.queue)
-    #     self.assertEqual(50, cd.size)
+    def test_front_enqueue(self):
+        """
+        Tests front_enqueue and grow functionality
+        """
+        # Test 1: Front_enqueue, multiple grows with 50 elements starting with default capacity
+        cd = CircularDeque()
+        for element in range(1, 51):
+            cd.enqueue(element)
+            # Test capacity of the dequeue while it grows
+            # If this fails it means you dequeue is not properly growing
+            if element < 4:
+                self.assertEqual(4, cd.capacity)
+            elif element < 8:
+                self.assertEqual(8, cd.capacity)
+            elif element < 16:
+                self.assertEqual(16, cd.capacity)
+            elif element < 32:
+                self.assertEqual(32, cd.capacity)
+            else:
+                self.assertEqual(64, cd.capacity)
+        # check the position of elements in the dequeue
+        self.assertEqual(list(range(32, 0, -1)) + [None] * 14 + list(range(50, 32, -1)), cd.queue)
+        self.assertEqual(50, cd.size)
 
-    #     # Test 2: Front_enqueue, multiple grows with 64 elements starting with default capacity
-    #     cd = CircularDeque()
-    #     for element in range(1, 65):
-    #         cd.enqueue(element)
-    #         if element < 4:
-    #             self.assertEqual(4, cd.capacity)
-    #         elif element < 8:
-    #             self.assertEqual(8, cd.capacity)
-    #         elif element < 16:
-    #             self.assertEqual(16, cd.capacity)
-    #         elif element < 32:
-    #             self.assertEqual(32, cd.capacity)
-    #         elif element < 64:
-    #             self.assertEqual(64, cd.capacity)
-    #     # check the position of elements in the cd
-    #     self.assertEqual(list(range(64, 0, -1)) + [None] * 64, cd.queue)
-    #     self.assertEqual(64, cd.size)
-    #     self.assertEqual(128, cd.capacity)
+        # Test 2: Front_enqueue, multiple grows with 64 elements starting with default capacity
+        cd = CircularDeque()
+        for element in range(1, 65):
+            cd.enqueue(element)
+            if element < 4:
+                self.assertEqual(4, cd.capacity)
+            elif element < 8:
+                self.assertEqual(8, cd.capacity)
+            elif element < 16:
+                self.assertEqual(16, cd.capacity)
+            elif element < 32:
+                self.assertEqual(32, cd.capacity)
+            elif element < 64:
+                self.assertEqual(64, cd.capacity)
+        # check the position of elements in the cd
+        self.assertEqual(list(range(64, 0, -1)) + [None] * 64, cd.queue)
+        self.assertEqual(64, cd.size)
+        self.assertEqual(128, cd.capacity)
 
-    # def test_back_enqueue(self):
-    #     """
-    #     Tests back_enqueue and grow functionality
-    #     """
-    #     # Test 1: 50 item, multiple grows
-    #     cd = CircularDeque()
-    #     for element in range(1, 51):
-    #         cd.enqueue(element, front=False)
-    #         # Test capacity of the cd while it grows
-    #         # If this fails it means you dequeue is not properly growing
-    #         if element < 4:
-    #             self.assertEqual(4, cd.capacity)
-    #         elif element < 8:
-    #             self.assertEqual(8, cd.capacity)
-    #         elif element < 16:
-    #             self.assertEqual(16, cd.capacity)
-    #         elif element < 32:
-    #             self.assertEqual(32, cd.capacity)
-    #         else:
-    #             self.assertEqual(64, cd.capacity)
-    #     self.assertEqual(list(range(1, 51)) + [None] * 14, cd.queue)
-    #     self.assertEqual(64, cd.capacity)
-    #     self.assertEqual(50, cd.size)
+    def test_back_enqueue(self):
+        """
+        Tests back_enqueue and grow functionality
+        """
+        # Test 1: 50 item, multiple grows
+        cd = CircularDeque()
+        for element in range(1, 51):
+            cd.enqueue(element, front=False)
+            # Test capacity of the cd while it grows
+            # If this fails it means you dequeue is not properly growing
+            if element < 4:
+                self.assertEqual(4, cd.capacity)
+            elif element < 8:
+                self.assertEqual(8, cd.capacity)
+            elif element < 16:
+                self.assertEqual(16, cd.capacity)
+            elif element < 32:
+                self.assertEqual(32, cd.capacity)
+            else:
+                self.assertEqual(64, cd.capacity)
+        self.assertEqual(list(range(1, 51)) + [None] * 14, cd.queue)
+        self.assertEqual(64, cd.capacity)
+        self.assertEqual(50, cd.size)
 
-    #     # Test 2: 64 items, multiple grows
-    #     cd = CircularDeque()
-    #     for element in range(1, 65):
-    #         cd.enqueue(element, front=False)
-    #         # Test capacity of the cd while it grows
-    #         # If this fails it means you dequeue is not properly growing
-    #         if element < 4:
-    #             self.assertEqual(4, cd.capacity)
-    #         elif element < 8:
-    #             self.assertEqual(8, cd.capacity)
-    #         elif element < 16:
-    #             self.assertEqual(16, cd.capacity)
-    #         elif element < 32:
-    #             self.assertEqual(32, cd.capacity)
-    #         elif element < 64:
-    #             self.assertEqual(64, cd.capacity)
-    #     self.assertEqual(list(range(1, 65)) + [None] * 64, cd.queue)
-    #     self.assertEqual(128, cd.capacity)
-    #     self.assertEqual(64, cd.size)
+        # Test 2: 64 items, multiple grows
+        cd = CircularDeque()
+        for element in range(1, 65):
+            cd.enqueue(element, front=False)
+            # Test capacity of the cd while it grows
+            # If this fails it means you dequeue is not properly growing
+            if element < 4:
+                self.assertEqual(4, cd.capacity)
+            elif element < 8:
+                self.assertEqual(8, cd.capacity)
+            elif element < 16:
+                self.assertEqual(16, cd.capacity)
+            elif element < 32:
+                self.assertEqual(32, cd.capacity)
+            elif element < 64:
+                self.assertEqual(64, cd.capacity)
+        self.assertEqual(list(range(1, 65)) + [None] * 64, cd.queue)
+        self.assertEqual(128, cd.capacity)
+        self.assertEqual(64, cd.size)
 
     def test_front_dequeue_basic(self):
         """
@@ -440,206 +440,206 @@ class CircularDequeTests(unittest.TestCase):
             self.assertEqual(3 - i, len(cd))
         self.assertIsNone(cd.dequeue(False))
 
-    # def test_back_dequeue(self):
-    #     """
-    #     Tests dequeue over shrinking conditions, does test size (length)
-    #     Does not rely on enqueue functions
-    #     """
-    #     # Test 1: Begin with capacity 16, empty queue while checking all parameters
-    #     cd = CircularDeque([i for i in range(15)], capacity=16)
+    def test_back_dequeue(self):
+        """
+        Tests dequeue over shrinking conditions, does test size (length)
+        Does not rely on enqueue functions
+        """
+        # Test 1: Begin with capacity 16, empty queue while checking all parameters
+        cd = CircularDeque([i for i in range(15)], capacity=16)
 
-    #     for item in range(15):
-    #         self.assertEqual(14 - item, cd.dequeue(False))
+        for item in range(15):
+            self.assertEqual(14 - item, cd.dequeue(False))
 
-    #         if item <= 9:  # shrunk 0 times
-    #             self.assertEqual(list(range(15)) + [None], cd.queue)
-    #             self.assertEqual(16, cd.capacity)
-    #         elif item <= 11:  # shrunk 1 time
-    #             self.assertEqual(list(range(4)) + [None, None, None, None], cd.queue)
-    #             self.assertEqual(8, cd.capacity)
-    #         else:  # shrunk twice
-    #             self.assertEqual([0, 1, None, None], cd.queue)
-    #             self.assertEqual(4, cd.capacity)
+            if item <= 9:  # shrunk 0 times
+                self.assertEqual(list(range(15)) + [None], cd.queue)
+                self.assertEqual(16, cd.capacity)
+            elif item <= 11:  # shrunk 1 time
+                self.assertEqual(list(range(4)) + [None, None, None, None], cd.queue)
+                self.assertEqual(8, cd.capacity)
+            else:  # shrunk twice
+                self.assertEqual([0, 1, None, None], cd.queue)
+                self.assertEqual(4, cd.capacity)
 
-    #         # ensure back is set correctly - note: pointers for an empty queue are up to implementation
-    #         if cd.size != 0:
-    #             self.assertEqual(13 - item, cd.back)
+            # ensure back is set correctly - note: pointers for an empty queue are up to implementation
+            if cd.size != 0:
+                self.assertEqual(13 - item, cd.back)
 
-    # def test_front_dequeue(self):
-    #     """
-    #     Tests dequeue along with shrinking
-    #     Does not rely on enqueue functions
-    #     """
-    #     # Test 1: identical to above but removing from front rather than back
-    #     cd = CircularDeque([i for i in range(15)], capacity=16)
+    def test_front_dequeue(self):
+        """
+        Tests dequeue along with shrinking
+        Does not rely on enqueue functions
+        """
+        # Test 1: identical to above but removing from front rather than back
+        cd = CircularDeque([i for i in range(15)], capacity=16)
 
-    #     fronts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 1, 0, 1]
+        fronts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 1, 0, 1]
 
-    #     for item in range(15):
-    #         self.assertEqual(item, cd.dequeue())
+        for item in range(15):
+            self.assertEqual(item, cd.dequeue())
 
-    #         if item <= 9:
-    #             self.assertEqual(list(range(15)) + [None], cd.queue)
-    #             self.assertEqual(16, cd.capacity)
-    #         elif item <= 11:
-    #             self.assertEqual([11, 12, 13, 14, None, None, None, None], cd.queue)
-    #             self.assertEqual(8, cd.capacity)
-    #         else:
-    #             self.assertEqual([13, 14, None, None], cd.queue)
+            if item <= 9:
+                self.assertEqual(list(range(15)) + [None], cd.queue)
+                self.assertEqual(16, cd.capacity)
+            elif item <= 11:
+                self.assertEqual([11, 12, 13, 14, None, None, None, None], cd.queue)
+                self.assertEqual(8, cd.capacity)
+            else:
+                self.assertEqual([13, 14, None, None], cd.queue)
 
-    #         if cd.size != 0:
-    #             self.assertEqual(fronts[item], cd.front)
+            if cd.size != 0:
+                self.assertEqual(fronts[item], cd.front)
 
-#     def test_winning_numbers(self):
-#         """
-#         Tests the get_winning_numbers function
-#         """
-#         # Test empty
-#         numbers = []
-#         size = 3
-#         expected = []
-#         output = get_winning_numbers(numbers, size)
-#         self.assertEqual(expected, output)
+    def test_winning_numbers(self):
+        """
+        Tests the get_winning_numbers function
+        """
+        # Test empty
+        numbers = []
+        size = 3
+        expected = []
+        output = get_winning_numbers(numbers, size)
+        self.assertEqual(expected, output)
 
-#         # Test one number
-#         numbers = [1]
-#         size = 1
-#         expected = [1]
-#         output = get_winning_numbers(numbers, size)
-#         self.assertEqual(expected, output)
+        # Test one number
+        numbers = [1]
+        size = 1
+        expected = [1]
+        output = get_winning_numbers(numbers, size)
+        self.assertEqual(expected, output)
 
-#         # Test simple
-#         numbers = [1, 2]
-#         size = 1
-#         expected = [1, 2]
-#         output = get_winning_numbers(numbers, size)
-#         self.assertEqual(expected, output)
+        # Test simple
+        numbers = [1, 2]
+        size = 1
+        expected = [1, 2]
+        output = get_winning_numbers(numbers, size)
+        self.assertEqual(expected, output)
 
-#         # Test simple
-#         numbers = [1, 2]
-#         size = 2
-#         expected = [2]
-#         output = get_winning_numbers(numbers, size)
-#         self.assertEqual(expected, output)
+        # Test simple
+        numbers = [1, 2]
+        size = 2
+        expected = [2]
+        output = get_winning_numbers(numbers, size)
+        self.assertEqual(expected, output)
 
-#         # Test 1
-#         numbers = [1, 3, -1, -3, 5, 3, 6, 7]
-#         size = 3
-#         expected = [3, 3, 5, 5, 6, 7]
-#         output = get_winning_numbers(numbers, size)
-#         self.assertEqual(expected, output)
+        # Test 1
+        numbers = [1, 3, -1, -3, 5, 3, 6, 7]
+        size = 3
+        expected = [3, 3, 5, 5, 6, 7]
+        output = get_winning_numbers(numbers, size)
+        self.assertEqual(expected, output)
 
-#         # Test 2
-#         numbers = [5, 7, 2, 4, -10, -2, 3, 22, 30, 102, -13, 20]
-#         size = 4
-#         expected = [7, 7, 4, 4, 22, 30, 102, 102, 102]
-#         output = get_winning_numbers(numbers, size)
-#         self.assertEqual(expected, output)
+        # Test 2
+        numbers = [5, 7, 2, 4, -10, -2, 3, 22, 30, 102, -13, 20]
+        size = 4
+        expected = [7, 7, 4, 4, 22, 30, 102, 102, 102]
+        output = get_winning_numbers(numbers, size)
+        self.assertEqual(expected, output)
 
-#         # Test 3
-#         numbers = [2, 3, 9, 2, 8, 10, 3, 1, 0, 8]
-#         size = 2
-#         expected = [3, 9, 9, 8, 10, 10, 3, 1, 8]
-#         output = get_winning_numbers(numbers, size)
-#         self.assertEqual(expected, output)
+        # Test 3
+        numbers = [2, 3, 9, 2, 8, 10, 3, 1, 0, 8]
+        size = 2
+        expected = [3, 9, 9, 8, 10, 10, 3, 1, 8]
+        output = get_winning_numbers(numbers, size)
+        self.assertEqual(expected, output)
 
-#         # Test 4
-#         numbers = [-2, -3, -9, -2, -8, -10, -3, -1, -4, -8]
-#         size = 2
-#         expected = [-2, -3, -2, -2, -8, -3, -1, -1, -4]
-#         output = get_winning_numbers(numbers, size)
-#         self.assertEqual(expected, output)
+        # Test 4
+        numbers = [-2, -3, -9, -2, -8, -10, -3, -1, -4, -8]
+        size = 2
+        expected = [-2, -3, -2, -2, -8, -3, -1, -1, -4]
+        output = get_winning_numbers(numbers, size)
+        self.assertEqual(expected, output)
 
-#         # Test 5
-#         numbers = [10000, 1000000, 100000, -10000, -1000000, -1000000, 1000, -1000, 10000]
-#         size = 4
-#         expected = [1000000, 1000000, 100000, 1000, 1000, 10000]
-#         output = get_winning_numbers(numbers, size)
-#         self.assertEqual(expected, output)
+        # Test 5
+        numbers = [10000, 1000000, 100000, -10000, -1000000, -1000000, 1000, -1000, 10000]
+        size = 4
+        expected = [1000000, 1000000, 100000, 1000, 1000, 10000]
+        output = get_winning_numbers(numbers, size)
+        self.assertEqual(expected, output)
 
-#         # Test 6
-#         numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-#         size = 1
-#         expected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-#         output = get_winning_numbers(numbers, size)
-#         self.assertEqual(expected, output)
+        # Test 6
+        numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+        size = 1
+        expected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+        output = get_winning_numbers(numbers, size)
+        self.assertEqual(expected, output)
 
-#     def test_winning_probability(self):
-#         """
-#         Tests the get_winning_probability function
-#         """
-#         # Test empty
-#         winning_numbers = []
-#         expected = 0
-#         output = get_winning_probability(winning_numbers)
-#         self.assertEqual(expected, output)
+    def test_winning_probability(self):
+        """
+        Tests the get_winning_probability function
+        """
+        # Test empty
+        winning_numbers = []
+        expected = 0
+        output = get_winning_probability(winning_numbers)
+        self.assertEqual(expected, output)
 
-#         # Test one element
-#         winning_numbers = [8]
-#         expected = 8
-#         output = get_winning_probability(winning_numbers)
-#         self.assertEqual(expected, output)
+        # Test one element
+        winning_numbers = [8]
+        expected = 8
+        output = get_winning_probability(winning_numbers)
+        self.assertEqual(expected, output)
 
-#         # Test two elements
-#         winning_numbers = [5, 10]
-#         expected = 10
-#         output = get_winning_probability(winning_numbers)
-#         self.assertEqual(expected, output)
+        # Test two elements
+        winning_numbers = [5, 10]
+        expected = 10
+        output = get_winning_probability(winning_numbers)
+        self.assertEqual(expected, output)
 
-#         # Test 1
-#         winning_numbers = [1, 3, 5, 2, 7]
-#         # [3,6,2]
-#         expected = 13
-#         output = get_winning_probability(winning_numbers)
-#         self.assertEqual(expected, output)
+        # Test 1
+        winning_numbers = [1, 3, 5, 2, 7]
+        # [3,6,2]
+        expected = 13
+        output = get_winning_probability(winning_numbers)
+        self.assertEqual(expected, output)
 
-#         # Test 2
-#         winning_numbers = [1, 2, 3, 1]
-#         expected = 4
-#         output = get_winning_probability(winning_numbers)
-#         self.assertEqual(expected, output)
+        # Test 2
+        winning_numbers = [1, 2, 3, 1]
+        expected = 4
+        output = get_winning_probability(winning_numbers)
+        self.assertEqual(expected, output)
 
-#         # Test 3
-#         winning_numbers = [2, 7, 9, 3, 1]
-#         expected = 12
-#         output = get_winning_probability(winning_numbers)
-#         self.assertEqual(expected, output)
+        # Test 3
+        winning_numbers = [2, 7, 9, 3, 1]
+        expected = 12
+        output = get_winning_probability(winning_numbers)
+        self.assertEqual(expected, output)
 
-#         # Test 4
-#         winning_numbers = [7, 9, 2, 5, 3]
-#         expected = 14
-#         output = get_winning_probability(winning_numbers)
-#         self.assertEqual(expected, output)
+        # Test 4
+        winning_numbers = [7, 9, 2, 5, 3]
+        expected = 14
+        output = get_winning_probability(winning_numbers)
+        self.assertEqual(expected, output)
 
-#         # Test with Winning Numbers from previous function 1
-#         winning_numbers = [3, 3, 5, 5, 6, 7]
-#         expected = 15
-#         output = get_winning_probability(winning_numbers)
-#         self.assertEqual(expected, output)
+        # Test with Winning Numbers from previous function 1
+        winning_numbers = [3, 3, 5, 5, 6, 7]
+        expected = 15
+        output = get_winning_probability(winning_numbers)
+        self.assertEqual(expected, output)
 
-#         # Test with Winning Numbers from previous function 2
-#         winning_numbers = [7, 7, 4, 4, 22, 30, 102, 102, 102]
-#         expected = 237
-#         output = get_winning_probability(winning_numbers)
-#         self.assertEqual(expected, output)
+        # Test with Winning Numbers from previous function 2
+        winning_numbers = [7, 7, 4, 4, 22, 30, 102, 102, 102]
+        expected = 237
+        output = get_winning_probability(winning_numbers)
+        self.assertEqual(expected, output)
 
-#         # Test with Winning Numbers from previous function 3
-#         winning_numbers = [3, 9, 9, 8, 10, 10, 3, 1, 8]
-#         expected = 35
-#         output = get_winning_probability(winning_numbers)
-#         self.assertEqual(expected, output)
+        # Test with Winning Numbers from previous function 3
+        winning_numbers = [3, 9, 9, 8, 10, 10, 3, 1, 8]
+        expected = 35
+        output = get_winning_probability(winning_numbers)
+        self.assertEqual(expected, output)
 
-#         # Test with Winning Numbers from previous function 4
-#         winning_numbers = [1000000, 1000000, 100000, 1000, 1000, 10000]
-#         expected = 1110000
-#         output = get_winning_probability(winning_numbers)
-#         self.assertEqual(expected, output)
+        # Test with Winning Numbers from previous function 4
+        winning_numbers = [1000000, 1000000, 100000, 1000, 1000, 10000]
+        expected = 1110000
+        output = get_winning_probability(winning_numbers)
+        self.assertEqual(expected, output)
 
-#         # Test with Winning Numbers from previous function 5
-#         winning_numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-#         expected = 110
-#         output = get_winning_probability(winning_numbers)
-#         self.assertEqual(expected, output)
+        # Test with Winning Numbers from previous function 5
+        winning_numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+        expected = 110
+        output = get_winning_probability(winning_numbers)
+        self.assertEqual(expected, output)
 
 
 if __name__ == '__main__':
