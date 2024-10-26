@@ -276,8 +276,6 @@ class AVLTree(BinarySearchTree):
         """
         if root is None:
             return
-        print(self)
-        print(root)
         def update_height(root: Node) -> None:
             if root is None:
                 return
@@ -292,24 +290,21 @@ class AVLTree(BinarySearchTree):
                 root.left = child
             if child is not None:
                 child.parent = root
+            update_height(root)
 
         right_left = root.right.left
         if root.parent != None:
             if root.parent.right == root:
                 set_child(root.parent, True, root.right)
             elif root.parent.left == root:
-                set_child(root.parent, False, root.left)
-            # update_height(root.parent)
+                set_child(root.parent, False, root.right)
         else:
             self.origin = root.right
             self.origin.parent = None
 
         set_child(root.right, False, root)
         set_child(root, True, right_left)
-        # update_height(root.parent)
-        update_height(root.right)
-        print(self)
-        print(root)
+
         return root.parent
 
     def right_rotate(self, root: Node) -> Optional[Node]:
@@ -369,41 +364,18 @@ class AVLTree(BinarySearchTree):
                 self.right_rotate(root.right)
             return self.left_rotate(root)
         elif self.balance_factor(root) == 2:
-            print(self)
             if self.balance_factor(root.left) == -1:
                 self.left_rotate(root.left)
-            print(self)
             return self.right_rotate(root)
         return root
-        # if abs(balance) > 1:
-        #     if root.parent is None:
-        #         parent_right = balance < 0
-        #     else:
-        #         parent_right = root.parent.right == root
-        #     if parent_right:
-        #         if balance >= 0:
-        #             # right righ
-        #             root = self.left_rotate(root)
-        #         else:
-        #             # right left
-        #             root = self.right_rotate(root)
-        #             root = self.left_rotate(root.parent)
-        #     else:
-        #         if balance <= 0:
-        #             # left left
-        #             root = self.right_rotate(root)
-        #         else:
-        #             # left right
-        #             root = self.left_rotate(root)
-        #             root = self.right_rotate(root.parent)
-        # 
-        # return root
 
     def insert(self, root: Node, val: T, data: str = None) -> Optional[Node]:
         """
         INSERT DOCSTRING HERE
         """
         super().insert(root, val)
+        if root is None:
+            root = self.origin
         root = self.rebalance(root)
         return root
 
@@ -421,17 +393,21 @@ class AVLTree(BinarySearchTree):
         """
         INSERT DOCSTRING HERE
         """
+        if root is None:
+            return None
         while root.left:
             root = root.left
-        return root.value
+        return root
 
     def max(self, root: Node) -> Optional[Node]:
         """
         INSERT DOCSTRING HERE
         """
+        if root is None:
+            return None
         while root.right:
             root = root.right
-        return root.value
+        return root
 
     def search(self, root: Node, val: T) -> Optional[Node]:
         """
@@ -443,37 +419,40 @@ class AVLTree(BinarySearchTree):
         """
         INSERT DOCSTRING HERE
         """
-        if root.left:
-            yield self.inorder(root.left)
-        yield root.value
-        if root.right:
-            yield self.inorder(root.right)
+        if root is None:
+            return StopIteration
+        
+        yield from self.inorder(root.left)
+        yield root
+        yield from self.inorder(root.right)
 
     def __iter__(self) -> Generator[Node, None, None]:
         """
         INSERT DOCSTRING HERE
         """
-        return self.inorder
+        return self.inorder(self.origin)
 
     def preorder(self, root: Node) -> Generator[Node, None, None]:
         """
         INSERT DOCSTRING HERE
         """
-        yield root.value
-        if root.left:
-            yield self.inorder(root.left)
-        if root.right:
-            yield self.inorder(root.right)
+        if root is None:
+            return StopIteration
+        
+        yield root
+        yield from self.preorder(root.left)
+        yield from self.preorder(root.right)
 
     def postorder(self, root: Node) -> Generator[Node, None, None]:
         """
         INSERT DOCSTRING HERE
         """
-        if root.left:
-            yield self.inorder(root.left)
-        if root.right:
-            yield self.inorder(root.right)
-        yield root.value
+        if root is None:
+            return StopIteration
+        
+        yield from self.postorder(root.left)
+        yield from self.postorder(root.right)
+        yield root
 
     def levelorder(self, root: Node) -> Generator[Node, None, None]:
         """
@@ -481,19 +460,21 @@ class AVLTree(BinarySearchTree):
         """
         queue = SimpleQueue()
         queue.put(root)
-        while queue:
+        while not queue.empty():
             new_queue = SimpleQueue()
-            while queue:
+            while not queue.empty():
                 node = queue.get_nowait()
-                
-                yield node.value
 
-                if node.left:
-                    new_queue.put(node.left)
-                if node.right:
-                    new_queue.put(node.right)
+                if node is None:
+                    continue
+
+                yield node
+
+                new_queue.put(node.left)
+                new_queue.put(node.right)
         
             queue = new_queue
+        return StopIteration
 # Classifier
 class KNNClassifier:
 
