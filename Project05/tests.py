@@ -435,662 +435,663 @@ class BSTTests(unittest.TestCase):
                 self.assertEqual(num, node.value)
 
 
-# class AVLTreeTests(unittest.TestCase):
-
-#     def test_rotate(self):
-
-#         # ensure empty tree is properly handled
-#         avl = AVLTree()
-#         self.assertIsNone(avl.right_rotate(avl.origin))
-#         self.assertIsNone(avl.left_rotate(avl.origin))
-
-#         """
-#         (1) test basic right
-#         initial structure:
-#             3
-#            /
-#           2
-#          /
-#         1
-#         final structure:
-#           2
-#          / \
-#         1   3
-#         """
-#         avl.origin = Node(3)
-#         avl.origin.left = Node(2, parent=avl.origin)
-#         avl.origin.left.left = Node(1, parent=avl.origin.left)
-#         avl.size = 3
-
-#         node = avl.right_rotate(avl.origin)
-#         self.assertIsInstance(node, Node)
-#         self.assertEqual(2, node.value)
-
-#         # root has no parent
-#         self.assertEqual(2, avl.origin.value)
-#         self.assertIsNone(avl.origin.parent)
-
-#         # root left value and parent
-#         self.assertEqual(1, avl.origin.left.value)
-#         self.assertEqual(avl.origin, avl.origin.left.parent)
-
-#         # left leaf should have no children
-#         self.assertIsNone(avl.origin.left.left)
-#         self.assertIsNone(avl.origin.left.right)
-
-#         # root right value and parent
-#         self.assertEqual(3, avl.origin.right.value)
-#         self.assertEqual(avl.origin, avl.origin.right.parent)
-
-#         # right leaf should have no children
-#         self.assertIsNone(avl.origin.right.right)
-#         self.assertIsNone(avl.origin.right.left)
-
-#         """
-#         (2) test basic left
-#         initial structure:
-#         1
-#          \
-#           2
-#            \
-#             3
-#         final structure:
-#           2
-#          / \
-#         1   3
-#         """
-#         avl = AVLTree()
-#         avl.origin = Node(1)
-#         avl.origin.right = Node(2, parent=avl.origin)
-#         avl.origin.right.right = Node(3, parent=avl.origin.right)
-#         avl.size = 3
-
-#         node = avl.left_rotate(avl.origin)
-#         self.assertIsInstance(node, Node)
-#         self.assertEqual(2, node.value)
-
-#         # root has no parent
-#         self.assertEqual(2, avl.origin.value)
-#         self.assertIsNone(avl.origin.parent)
-
-#         # root left value and parent
-#         self.assertEqual(1, avl.origin.left.value)
-#         self.assertEqual(avl.origin, avl.origin.left.parent)
-
-#         # left leaf should have no children
-#         self.assertIsNone(avl.origin.left.left)
-#         self.assertIsNone(avl.origin.left.right)
-
-#         # root right value and parent
-#         self.assertEqual(3, avl.origin.right.value)
-#         self.assertEqual(avl.origin, avl.origin.right.parent)
-
-#         # right leaf should have no children
-#         self.assertIsNone(avl.origin.right.right)
-#         self.assertIsNone(avl.origin.right.left)
-
-#         """
-#         (3) test intermediate right, rotating at origin
-#         initial structure:
-#               7
-#              / \
-#             3   10
-#            / \
-#           2   4
-#          /
-#         1 
-#         final structure:
-#             3
-#            / \
-#           2   7
-#          /   / \
-#         1   4   10
-#         """
-#         avl = AVLTree()
-#         avl.origin = Node(7)
-#         avl.origin.left = Node(3, parent=avl.origin)
-#         avl.origin.left.left = Node(2, parent=avl.origin.left)
-#         avl.origin.left.left.left = Node(1, parent=avl.origin.left.left)
-#         avl.origin.left.right = Node(4, parent=avl.origin.left)
-#         avl.origin.right = Node(10, parent=avl.origin)
-
-#         node = avl.right_rotate(avl.origin)
-#         self.assertIsInstance(node, Node)
-#         self.assertEqual(3, node.value)
-
-#         self.assertEqual(3, avl.origin.value)
-#         self.assertIsNone(avl.origin.parent)
-
-#         self.assertEqual(2, avl.origin.left.value)
-#         self.assertEqual(avl.origin, avl.origin.left.parent)
-#         self.assertIsNone(avl.origin.left.right)
-
-#         self.assertEqual(1, avl.origin.left.left.value)
-#         self.assertEqual(avl.origin.left, avl.origin.left.left.parent)
-#         self.assertIsNone(avl.origin.left.left.left)
-#         self.assertIsNone(avl.origin.left.left.right)
-
-#         self.assertEqual(7, avl.origin.right.value)
-#         self.assertEqual(avl.origin, avl.origin.right.parent)
-
-#         self.assertEqual(4, avl.origin.right.left.value)
-#         self.assertEqual(avl.origin.right, avl.origin.right.left.parent)
-#         self.assertIsNone(avl.origin.right.left.left)
-#         self.assertIsNone(avl.origin.right.left.right)
-
-#         self.assertEqual(10, avl.origin.right.right.value)
-#         self.assertEqual(avl.origin.right, avl.origin.right.right.parent)
-#         self.assertIsNone(avl.origin.right.right.left)
-#         self.assertIsNone(avl.origin.right.right.right)
-
-#         """
-#         (4) test intermediate left, rotating at origin
-#         initial structure:
-#           7
-#          /  \
-#         3   10
-#            /   \
-#           9    11
-#                  \
-#                   12
-#         final structure:
-#         	10
-#            /  \
-#           7   11
-#          / \    \
-#         3   9    12
-#         """
-#         avl = AVLTree()
-#         avl.origin = Node(7)
-#         avl.origin.left = Node(3, parent=avl.origin)
-#         avl.origin.right = Node(10, parent=avl.origin)
-#         avl.origin.right.left = Node(9, parent=avl.origin.right)
-#         avl.origin.right.right = Node(11, parent=avl.origin.right)
-#         avl.origin.right.right.right = Node(12, parent=avl.origin.right.right)
-
-#         node = avl.left_rotate(avl.origin)
-#         self.assertIsInstance(node, Node)
-#         self.assertEqual(10, node.value)
-
-#         self.assertEqual(10, avl.origin.value)
-#         self.assertIsNone(avl.origin.parent)
-#         # assert node10.value == 10 and not node10.parent
-
-#         self.assertEqual(7, avl.origin.left.value)
-#         self.assertEqual(avl.origin, avl.origin.left.parent)
-#         # assert node7.value == 7 and node7.parent == node10
-
-#         self.assertEqual(3, avl.origin.left.left.value)
-#         self.assertEqual(avl.origin.left, avl.origin.left.left.parent)
-#         self.assertIsNone(avl.origin.left.left.left)
-#         self.assertIsNone(avl.origin.left.left.right)
-#         # assert node3.value == 3 and node3.parent == node7 and not (
-#         #     node3.left or node3.right)
-
-#         self.assertEqual(9, avl.origin.left.right.value)
-#         self.assertEqual(avl.origin.left, avl.origin.left.right.parent)
-#         self.assertIsNone(avl.origin.left.right.left)
-#         self.assertIsNone(avl.origin.left.right.right)
-#         # assert node9.value == 9 and node9.parent == node7 and not (
-#         #     node9.left or node9.right)
-
-#         self.assertEqual(11, avl.origin.right.value)
-#         self.assertEqual(avl.origin, avl.origin.right.parent)
-#         self.assertIsNone(avl.origin.right.left)
-#         # assert node11.value == 11 and node11.parent == node10 and not node11.left
-
-#         self.assertEqual(12, avl.origin.right.right.value)
-#         self.assertEqual(avl.origin.right, avl.origin.right.right.parent)
-#         self.assertIsNone(avl.origin.right.right.left)
-#         self.assertIsNone(avl.origin.right.right.right)
-#         # assert node12.value == 12 and node12.parent == node11 and not (
-#         #     node12.left or node12.right)
-
-#         """
-#         (5) test advanced right, rotating not at origin
-#         initial structure:
-#         		10
-#         	   /  \
-#         	  5	   11
-#         	 / \     \
-#         	3	7    12
-#            / \
-#           2   4
-#          /
-#         1
-#         final structure:
-#               10
-#              /  \
-#             3    11
-#            / \     \
-#           2   5     12
-#          /   / \
-#         1   4   7
-#         """
-#         avl = AVLTree()
-#         avl.origin = Node(10)
-#         avl.origin.right = Node(11, parent=avl.origin)
-#         avl.origin.right.right = Node(12, parent=avl.origin.right)
-#         avl.origin.left = Node(5, parent=avl.origin)
-#         avl.origin.left.right = Node(7, parent=avl.origin.left)
-#         avl.origin.left.left = Node(3, parent=avl.origin.left)
-#         avl.origin.left.left.right = Node(4, parent=avl.origin.left.left)
-#         avl.origin.left.left.left = Node(2, parent=avl.origin.left.left)
-#         avl.origin.left.left.left.left = Node(
-#             1, parent=avl.origin.left.left.left)
-
-#         node = avl.right_rotate(avl.origin.left)
-#         self.assertIsInstance(node, Node)
-#         self.assertEqual(3, node.value)
-
-#         self.assertEqual(10, avl.origin.value)
-#         self.assertIsNone(avl.origin.parent)
-
-#         self.assertEqual(3, avl.origin.left.value)
-#         self.assertEqual(avl.origin, avl.origin.left.parent)
-
-#         self.assertEqual(2, avl.origin.left.left.value)
-#         self.assertEqual(avl.origin.left, avl.origin.left.left.parent)
-#         self.assertIsNone(avl.origin.left.left.right)
-
-#         self.assertEqual(5, avl.origin.left.right.value)
-#         self.assertEqual(avl.origin.left, avl.origin.left.right.parent)
-
-#         self.assertEqual(1, avl.origin.left.left.left.value)
-#         self.assertEqual(avl.origin.left.left,
-#                          avl.origin.left.left.left.parent)
-#         self.assertIsNone(avl.origin.left.left.left.left)
-#         self.assertIsNone(avl.origin.left.left.left.right)
-
-#         self.assertEqual(4, avl.origin.left.right.left.value)
-#         self.assertEqual(avl.origin.left.right,
-#                          avl.origin.left.right.left.parent)
-#         self.assertIsNone(avl.origin.left.right.left.left)
-#         self.assertIsNone(avl.origin.left.right.left.right)
-
-#         self.assertEqual(7, avl.origin.left.right.right.value)
-#         self.assertEqual(avl.origin.left.right,
-#                          avl.origin.left.right.right.parent)
-#         self.assertIsNone(avl.origin.left.right.right.left)
-#         self.assertIsNone(avl.origin.left.right.right.right)
-
-#         self.assertEqual(11, avl.origin.right.value)
-#         self.assertEqual(avl.origin, avl.origin.right.parent)
-#         self.assertIsNone(avl.origin.right.left)
-
-#         self.assertEqual(12, avl.origin.right.right.value)
-#         self.assertEqual(avl.origin.right, avl.origin.right.right.parent)
-#         self.assertIsNone(avl.origin.right.right.left)
-#         self.assertIsNone(avl.origin.right.right.right)
-
-#         """
-#         (6) test advanced left, rotating not at origin
-#         initial structure:
-#         	3
-#            / \
-#           2   10
-#          /   /  \
-#         1   5   12
-#                /  \
-#               11   13
-#                      \
-#                       14
-#         final structure:
-#         	3
-#            / \
-#           2   12
-#          /   /  \
-#         1   10   13
-#            /  \    \
-#           5   11   14
-#         """
-#         avl = AVLTree()
-#         avl.origin = Node(3)
-#         avl.origin.left = Node(2, parent=avl.origin)
-#         avl.origin.left.left = Node(1, parent=avl.origin.left)
-#         avl.origin.right = Node(10, parent=avl.origin)
-#         avl.origin.right.left = Node(5, parent=avl.origin.right)
-#         avl.origin.right.right = Node(12, parent=avl.origin.right)
-#         avl.origin.right.right.left = Node(11, parent=avl.origin.right.right)
-#         avl.origin.right.right.right = Node(13, parent=avl.origin.right.right)
-#         avl.origin.right.right.right.right = Node(
-#             14, parent=avl.origin.right.right.right)
-
-#         node = avl.left_rotate(avl.origin.right)
-#         self.assertIsInstance(node, Node)
-#         self.assertEqual(12, node.value)
-
-#         self.assertEqual(3, avl.origin.value)
-#         self.assertIsNone(avl.origin.parent)
-
-#         self.assertEqual(2, avl.origin.left.value)
-#         self.assertEqual(avl.origin, avl.origin.left.parent)
-#         self.assertIsNone(avl.origin.left.right)
-
-#         self.assertEqual(1, avl.origin.left.left.value)
-#         self.assertEqual(avl.origin.left, avl.origin.left.left.parent)
-#         self.assertIsNone(avl.origin.left.left.left)
-#         self.assertIsNone(avl.origin.left.left.right)
-
-#         self.assertEqual(12, avl.origin.right.value)
-#         self.assertEqual(avl.origin, avl.origin.right.parent)
-
-#         self.assertEqual(10, avl.origin.right.left.value)
-#         self.assertEqual(avl.origin.right, avl.origin.right.left.parent)
-
-#         self.assertEqual(5, avl.origin.right.left.left.value)
-#         self.assertEqual(avl.origin.right.left,
-#                          avl.origin.right.left.left.parent)
-#         self.assertIsNone(avl.origin.right.left.left.left)
-#         self.assertIsNone(avl.origin.right.left.left.right)
-
-#         self.assertEqual(11, avl.origin.right.left.right.value)
-#         self.assertEqual(avl.origin.right.left,
-#                          avl.origin.right.left.right.parent)
-#         self.assertIsNone(avl.origin.right.left.right.left)
-#         self.assertIsNone(avl.origin.right.left.right.right)
-
-#         self.assertEqual(13, avl.origin.right.right.value)
-#         self.assertEqual(avl.origin.right, avl.origin.right.right.parent)
-#         self.assertIsNone(avl.origin.right.right.left)
-
-#         self.assertEqual(14, avl.origin.right.right.right.value)
-#         self.assertEqual(avl.origin.right.right,
-#                          avl.origin.right.right.right.parent)
-#         self.assertIsNone(avl.origin.right.right.right.left)
-#         self.assertIsNone(avl.origin.right.right.right.right)
-
-#     def test_balance_factor(self):
-
-#         # ensure empty tree is properly handled
-#         avl = AVLTree()
-#         self.assertEqual(0, avl.balance_factor(avl.origin))
-
-#         """
-#         (1) test on balanced tree
-#         structure:
-#           2
-#          / \
-#         1   3
-#         """
-#         avl.origin = Node(2)
-#         avl.origin.height = 1
-#         avl.origin.left = Node(1, parent=avl.origin)
-#         avl.origin.left.height = 0
-#         avl.origin.right = Node(3, parent=avl.origin)
-#         avl.origin.right.height = 0
-#         avl.size = 3
-
-#         self.assertEqual(0, avl.balance_factor(avl.origin))
-#         self.assertEqual(0, avl.balance_factor(avl.origin.left))
-#         self.assertEqual(0, avl.balance_factor(avl.origin.right))
-
-#         """
-#         (2) test on unbalanced left
-#         structure:
-#             3
-#            /
-#           2
-#          /
-#         1
-#         """
-#         avl = AVLTree()
-#         avl.origin = Node(3)
-#         avl.origin.height = 2
-#         avl.origin.left = Node(2, parent=avl.origin)
-#         avl.origin.left.height = 1
-#         avl.origin.left.left = Node(1, parent=avl.origin.left)
-#         avl.origin.left.left.height = 0
-#         avl.size = 3
-
-#         self.assertEqual(2, avl.balance_factor(avl.origin))
-#         self.assertEqual(1, avl.balance_factor(avl.origin.left))
-#         self.assertEqual(0, avl.balance_factor(avl.origin.left.left))
-
-#         """
-#         (2) test on unbalanced right
-#         structure:
-#         1
-#          \
-#           2
-#            \
-#             3
-#         """
-#         avl = AVLTree()
-#         avl.origin = Node(1)
-#         avl.origin.height = 2
-#         avl.origin.right = Node(2, parent=avl.origin)
-#         avl.origin.right.height = 1
-#         avl.origin.right.right = Node(3, parent=avl.origin.right)
-#         avl.origin.right.right.height = 0
-#         avl.size = 3
-
-#         self.assertEqual(-2, avl.balance_factor(avl.origin))
-#         self.assertEqual(-1, avl.balance_factor(avl.origin.right))
-#         self.assertEqual(0, avl.balance_factor(avl.origin.right.right))
-
-#     def test_rebalance(self):
-
-#         # ensure empty tree is properly handled
-#         avl = AVLTree()
-#         self.assertIsNone(avl.rebalance(avl.origin))
-
-#         """
-#         (1) test balanced tree (do nothing)
-#         initial and final structure:
-#           2
-#          / \
-#         1   3
-#         since pointers are already tested in rotation testcase, only check values and heights
-#         """
-#         avl.origin = Node(2)
-#         avl.origin.height = 1
-#         avl.origin.left = Node(1, parent=avl.origin)
-#         avl.origin.left.height = 0
-#         avl.origin.right = Node(3, parent=avl.origin)
-#         avl.origin.right.height = 0
-#         avl.size = 3
-
-#         node = avl.rebalance(avl.origin)
-#         self.assertIsInstance(node, Node)
-#         self.assertEqual(2, node.value)
-
-#         self.assertEqual(2, avl.origin.value)
-#         self.assertEqual(1, avl.origin.height)
-#         self.assertEqual(1, avl.origin.left.value)
-#         self.assertEqual(0, avl.origin.left.height)
-#         self.assertEqual(3, avl.origin.right.value)
-#         self.assertEqual(0, avl.origin.right.height)
-
-#         """
-#         (2) test left-left rebalance
-#         initial structure:
-#             4
-#            /
-#           2
-#          / \
-#         1   3
-#         final structure:
-#           2
-#          / \
-#         1   4
-#            /
-#           3
-#         """
-#         avl = AVLTree()
-#         avl.origin = Node(4)
-#         avl.origin.height = 2
-#         avl.origin.left = Node(2, parent=avl.origin)
-#         avl.origin.left.height = 1
-#         avl.origin.left.left = Node(1, parent=avl.origin.left)
-#         avl.origin.left.left.height = 0
-#         avl.origin.left.right = Node(3, parent=avl.origin.left)
-#         avl.origin.left.right.height = 0
-#         avl.size = 4
-
-#         node = avl.rebalance(avl.origin)
-#         self.assertIsInstance(node, Node)
-#         self.assertEqual(2, node.value)
-
-#         self.assertEqual(2, avl.origin.value)
-#         self.assertEqual(2, avl.origin.height)
-#         self.assertEqual(1, avl.origin.left.value)
-#         self.assertEqual(0, avl.origin.left.height)
-#         self.assertEqual(4, avl.origin.right.value)
-#         self.assertEqual(1, avl.origin.right.height)
-#         self.assertEqual(3, avl.origin.right.left.value)
-#         self.assertEqual(0, avl.origin.right.left.height)
-
-#         """
-#         (2) test right-right rebalance
-#         initial structure:
-#         1
-#          \
-#           3
-#          /  \
-#         2    4
-#         final structure:
-#           3
-#          / \
-#         1   4
-#          \
-#           2
-#         """
-#         avl = AVLTree()
-#         avl.origin = Node(1)
-#         avl.origin.height = 2
-#         avl.origin.right = Node(3, parent=avl.origin)
-#         avl.origin.right.height = 1
-#         avl.origin.right.right = Node(4, parent=avl.origin.right)
-#         avl.origin.right.right.height = 0
-#         avl.origin.right.left = Node(2, parent=avl.origin.right)
-#         avl.origin.right.left.height = 0
-#         avl.size = 4
-
-#         node = avl.rebalance(avl.origin)
-#         self.assertIsInstance(node, Node)
-#         self.assertEqual(3, node.value)
-
-#         self.assertEqual(3, avl.origin.value)
-#         self.assertEqual(2, avl.origin.height)
-#         self.assertEqual(1, avl.origin.left.value)
-#         self.assertEqual(1, avl.origin.left.height)
-#         self.assertEqual(4, avl.origin.right.value)
-#         self.assertEqual(0, avl.origin.right.height)
-#         self.assertEqual(2, avl.origin.left.right.value)
-#         self.assertEqual(0, avl.origin.left.right.height)
-
-#         """
-#         (4) test left-right rebalance
-#         initial structure:
-#             5
-#            / \
-#           2   6
-#          / \
-#         1   3
-#              \
-#               4
-#         intermediate structure:
-#               5
-#              / \
-#             3   6
-#            / \
-#           2   4
-#          /
-#         1
-#         final structure:
-#             3 
-#            / \
-#           2   5
-#          /   / \
-#         1   4   6
-#         """
-#         avl = AVLTree()
-#         avl.origin = Node(5)
-#         avl.origin.height = 3
-#         avl.origin.left = Node(2, parent=avl.origin)
-#         avl.origin.left.height = 2
-#         avl.origin.right = Node(6, parent=avl.origin)
-#         avl.origin.right.height = 0
-#         avl.origin.left.left = Node(1, parent=avl.origin.left)
-#         avl.origin.left.left.height = 0
-#         avl.origin.left.right = Node(3, parent=avl.origin.left)
-#         avl.origin.left.right.height = 1
-#         avl.origin.left.right.right = Node(4, parent=avl.origin.left.right)
-#         avl.origin.left.right.right.height = 0
-
-#         node = avl.rebalance(avl.origin)
-#         self.assertIsInstance(node, Node)
-#         self.assertEqual(3, node.value)
-
-#         self.assertEqual(3, avl.origin.value)
-#         self.assertEqual(2, avl.origin.height)
-#         self.assertEqual(2, avl.origin.left.value)
-#         self.assertEqual(1, avl.origin.left.height)
-#         self.assertEqual(5, avl.origin.right.value)
-#         self.assertEqual(1, avl.origin.right.height)
-#         self.assertEqual(1, avl.origin.left.left.value)
-#         self.assertEqual(0, avl.origin.left.left.height)
-#         self.assertEqual(4, avl.origin.right.left.value)
-#         self.assertEqual(0, avl.origin.right.left.height)
-#         self.assertEqual(6, avl.origin.right.right.value)
-#         self.assertEqual(0, avl.origin.right.right.height)
-
-#         """
-#         (5) test right-left rebalance
-#         initial structure:
-#           2
-#          / \
-#         1   5
-#            / \
-#           4   6
-#          /
-#         3
-#         intermediate structure:
-#           2
-#          / \
-#         1   4
-#            / \
-#           3   5
-#                \
-#                 6
-#         final structure:
-#             4 
-#            / \
-#           2   5
-#          / \   \
-#         1   3   6
-#         """
-#         avl = AVLTree()
-#         avl.origin = Node(2)
-#         avl.origin.height = 3
-#         avl.origin.left = Node(1, parent=avl.origin)
-#         avl.origin.left.height = 0
-#         avl.origin.right = Node(5, parent=avl.origin)
-#         avl.origin.right.height = 2
-#         avl.origin.right.left = Node(4, parent=avl.origin.right)
-#         avl.origin.right.left.height = 1
-#         avl.origin.right.right = Node(6, parent=avl.origin.right)
-#         avl.origin.right.right.height = 0
-#         avl.origin.right.left.left = Node(3, parent=avl.origin.right.left)
-#         avl.origin.right.left.left.height = 0
-
-#         node = avl.rebalance(avl.origin)
-#         self.assertIsInstance(node, Node)
-#         self.assertEqual(4, node.value)
-
-#         self.assertEqual(4, avl.origin.value)
-#         self.assertEqual(2, avl.origin.height)
-#         self.assertEqual(2, avl.origin.left.value)
-#         self.assertEqual(1, avl.origin.left.height)
-#         self.assertEqual(5, avl.origin.right.value)
-#         self.assertEqual(1, avl.origin.right.height)
-#         self.assertEqual(1, avl.origin.left.left.value)
-#         self.assertEqual(0, avl.origin.left.left.height)
-#         self.assertEqual(3, avl.origin.left.right.value)
-#         self.assertEqual(0, avl.origin.left.right.height)
-#         self.assertEqual(6, avl.origin.right.right.value)
-#         self.assertEqual(0, avl.origin.right.right.height)
+class AVLTreeTests(unittest.TestCase):
+
+    # def test_rotate(self):
+
+    #     # ensure empty tree is properly handled
+    #     avl = AVLTree()
+    #     self.assertIsNone(avl.right_rotate(avl.origin))
+    #     self.assertIsNone(avl.left_rotate(avl.origin))
+
+    #     """
+    #     (1) test basic right
+    #     initial structure:
+    #         3
+    #        /
+    #       2
+    #      /
+    #     1
+    #     final structure:
+    #       2
+    #      / \
+    #     1   3
+    #     """
+    #     avl.origin = Node(3)
+    #     avl.origin.left = Node(2, parent=avl.origin)
+    #     avl.origin.left.left = Node(1, parent=avl.origin.left)
+    #     avl.size = 3
+    #     node = avl.right_rotate(avl.origin)
+    #     self.assertIsInstance(node, Node)
+    #     self.assertEqual(2, node.value)
+
+    #     # root has no parent
+    #     self.assertEqual(2, avl.origin.value)
+    #     self.assertIsNone(avl.origin.parent)
+
+    #     # root left value and parent
+    #     self.assertEqual(1, avl.origin.left.value)
+    #     self.assertEqual(avl.origin, avl.origin.left.parent)
+
+    #     # left leaf should have no children
+    #     self.assertIsNone(avl.origin.left.left)
+    #     self.assertIsNone(avl.origin.left.right)
+
+    #     # root right value and parent
+    #     self.assertEqual(3, avl.origin.right.value)
+    #     self.assertEqual(avl.origin, avl.origin.right.parent)
+
+    #     # right leaf should have no children
+    #     self.assertIsNone(avl.origin.right.right)
+    #     self.assertIsNone(avl.origin.right.left)
+
+    #     """
+    #     (2) test basic left
+    #     initial structure:
+    #     1
+    #      \
+    #       2
+    #        \
+    #         3
+    #     final structure:
+    #       2
+    #      / \
+    #     1   3
+    #     """
+    #     avl = AVLTree()
+    #     avl.origin = Node(1)
+    #     avl.origin.right = Node(2, parent=avl.origin)
+    #     avl.origin.right.right = Node(3, parent=avl.origin.right)
+    #     avl.size = 3
+
+    #     node = avl.left_rotate(avl.origin)
+    #     self.assertIsInstance(node, Node)
+    #     self.assertEqual(2, node.value)
+
+    #     # root has no parent
+    #     self.assertEqual(2, avl.origin.value)
+    #     self.assertIsNone(avl.origin.parent)
+
+    #     # root left value and parent
+    #     self.assertEqual(1, avl.origin.left.value)
+    #     self.assertEqual(avl.origin, avl.origin.left.parent)
+
+    #     # left leaf should have no children
+    #     self.assertIsNone(avl.origin.left.left)
+    #     self.assertIsNone(avl.origin.left.right)
+
+    #     # root right value and parent
+    #     self.assertEqual(3, avl.origin.right.value)
+    #     self.assertEqual(avl.origin, avl.origin.right.parent)
+
+    #     # right leaf should have no children
+    #     self.assertIsNone(avl.origin.right.right)
+    #     self.assertIsNone(avl.origin.right.left)
+
+    #     """
+    #     (3) test intermediate right, rotating at origin
+    #     initial structure:
+    #           7
+    #          / \
+    #         3   10
+    #        / \
+    #       2   4
+    #      /
+    #     1 
+    #     final structure:
+    #         3
+    #        / \
+    #       2   7
+    #      /   / \
+    #     1   4   10
+    #     """
+    #     avl = AVLTree()
+    #     avl.origin = Node(7)
+    #     avl.origin.left = Node(3, parent=avl.origin)
+    #     avl.origin.left.left = Node(2, parent=avl.origin.left)
+    #     avl.origin.left.left.left = Node(1, parent=avl.origin.left.left)
+    #     avl.origin.left.right = Node(4, parent=avl.origin.left)
+    #     avl.origin.right = Node(10, parent=avl.origin)
+
+    #     node = avl.right_rotate(avl.origin)
+    #     self.assertIsInstance(node, Node)
+    #     self.assertEqual(3, node.value)
+
+    #     self.assertEqual(3, avl.origin.value)
+    #     self.assertIsNone(avl.origin.parent)
+
+    #     self.assertEqual(2, avl.origin.left.value)
+    #     self.assertEqual(avl.origin, avl.origin.left.parent)
+    #     self.assertIsNone(avl.origin.left.right)
+
+    #     self.assertEqual(1, avl.origin.left.left.value)
+    #     self.assertEqual(avl.origin.left, avl.origin.left.left.parent)
+    #     self.assertIsNone(avl.origin.left.left.left)
+    #     self.assertIsNone(avl.origin.left.left.right)
+
+    #     self.assertEqual(7, avl.origin.right.value)
+    #     self.assertEqual(avl.origin, avl.origin.right.parent)
+
+    #     self.assertEqual(4, avl.origin.right.left.value)
+    #     self.assertEqual(avl.origin.right, avl.origin.right.left.parent)
+    #     self.assertIsNone(avl.origin.right.left.left)
+    #     self.assertIsNone(avl.origin.right.left.right)
+
+    #     self.assertEqual(10, avl.origin.right.right.value)
+    #     self.assertEqual(avl.origin.right, avl.origin.right.right.parent)
+    #     self.assertIsNone(avl.origin.right.right.left)
+    #     self.assertIsNone(avl.origin.right.right.right)
+
+    #     """
+    #     (4) test intermediate left, rotating at origin
+    #     initial structure:
+    #       7
+    #      /  \
+    #     3   10
+    #        /   \
+    #       9    11
+    #              \
+    #               12
+    #     final structure:
+    #     	10
+    #        /  \
+    #       7   11
+    #      / \    \
+    #     3   9    12
+    #     """
+    #     avl = AVLTree()
+    #     avl.origin = Node(7)
+    #     avl.origin.left = Node(3, parent=avl.origin)
+    #     avl.origin.right = Node(10, parent=avl.origin)
+    #     avl.origin.right.left = Node(9, parent=avl.origin.right)
+    #     avl.origin.right.right = Node(11, parent=avl.origin.right)
+    #     avl.origin.right.right.right = Node(12, parent=avl.origin.right.right)
+
+    #     node = avl.left_rotate(avl.origin)
+    #     self.assertIsInstance(node, Node)
+    #     self.assertEqual(10, node.value)
+
+    #     self.assertEqual(10, avl.origin.value)
+    #     self.assertIsNone(avl.origin.parent)
+    #     # assert node10.value == 10 and not node10.parent
+
+    #     self.assertEqual(7, avl.origin.left.value)
+    #     self.assertEqual(avl.origin, avl.origin.left.parent)
+    #     # assert node7.value == 7 and node7.parent == node10
+
+    #     self.assertEqual(3, avl.origin.left.left.value)
+    #     self.assertEqual(avl.origin.left, avl.origin.left.left.parent)
+    #     self.assertIsNone(avl.origin.left.left.left)
+    #     self.assertIsNone(avl.origin.left.left.right)
+    #     # assert node3.value == 3 and node3.parent == node7 and not (
+    #     #     node3.left or node3.right)
+
+    #     self.assertEqual(9, avl.origin.left.right.value)
+    #     self.assertEqual(avl.origin.left, avl.origin.left.right.parent)
+    #     self.assertIsNone(avl.origin.left.right.left)
+    #     self.assertIsNone(avl.origin.left.right.right)
+    #     # assert node9.value == 9 and node9.parent == node7 and not (
+    #     #     node9.left or node9.right)
+
+    #     self.assertEqual(11, avl.origin.right.value)
+    #     self.assertEqual(avl.origin, avl.origin.right.parent)
+    #     self.assertIsNone(avl.origin.right.left)
+    #     # assert node11.value == 11 and node11.parent == node10 and not node11.left
+
+    #     self.assertEqual(12, avl.origin.right.right.value)
+    #     self.assertEqual(avl.origin.right, avl.origin.right.right.parent)
+    #     self.assertIsNone(avl.origin.right.right.left)
+    #     self.assertIsNone(avl.origin.right.right.right)
+    #     # assert node12.value == 12 and node12.parent == node11 and not (
+    #     #     node12.left or node12.right)
+
+    #     """
+    #     (5) test advanced right, rotating not at origin
+    #     initial structure:
+    #     		10
+    #     	   /  \
+    #     	  5	   11
+    #     	 / \     \
+    #     	3	7    12
+    #        / \
+    #       2   4
+    #      /
+    #     1
+    #     final structure:
+    #           10
+    #          /  \
+    #         3    11
+    #        / \     \
+    #       2   5     12
+    #      /   / \
+    #     1   4   7
+    #     """
+    #     avl = AVLTree()
+    #     avl.origin = Node(10)
+    #     avl.origin.right = Node(11, parent=avl.origin)
+    #     avl.origin.right.right = Node(12, parent=avl.origin.right)
+    #     avl.origin.left = Node(5, parent=avl.origin)
+    #     avl.origin.left.right = Node(7, parent=avl.origin.left)
+    #     avl.origin.left.left = Node(3, parent=avl.origin.left)
+    #     avl.origin.left.left.right = Node(4, parent=avl.origin.left.left)
+    #     avl.origin.left.left.left = Node(2, parent=avl.origin.left.left)
+    #     avl.origin.left.left.left.left = Node(
+    #         1, parent=avl.origin.left.left.left)
+
+    #     node = avl.right_rotate(avl.origin.left)
+    #     self.assertIsInstance(node, Node)
+    #     self.assertEqual(3, node.value)
+
+    #     self.assertEqual(10, avl.origin.value)
+    #     self.assertIsNone(avl.origin.parent)
+
+    #     self.assertEqual(3, avl.origin.left.value)
+    #     self.assertEqual(avl.origin, avl.origin.left.parent)
+
+    #     self.assertEqual(2, avl.origin.left.left.value)
+    #     self.assertEqual(avl.origin.left, avl.origin.left.left.parent)
+    #     self.assertIsNone(avl.origin.left.left.right)
+
+    #     self.assertEqual(5, avl.origin.left.right.value)
+    #     self.assertEqual(avl.origin.left, avl.origin.left.right.parent)
+
+    #     self.assertEqual(1, avl.origin.left.left.left.value)
+    #     self.assertEqual(avl.origin.left.left,
+    #                      avl.origin.left.left.left.parent)
+    #     self.assertIsNone(avl.origin.left.left.left.left)
+    #     self.assertIsNone(avl.origin.left.left.left.right)
+
+    #     self.assertEqual(4, avl.origin.left.right.left.value)
+    #     self.assertEqual(avl.origin.left.right,
+    #                      avl.origin.left.right.left.parent)
+    #     self.assertIsNone(avl.origin.left.right.left.left)
+    #     self.assertIsNone(avl.origin.left.right.left.right)
+
+    #     self.assertEqual(7, avl.origin.left.right.right.value)
+    #     self.assertEqual(avl.origin.left.right,
+    #                      avl.origin.left.right.right.parent)
+    #     self.assertIsNone(avl.origin.left.right.right.left)
+    #     self.assertIsNone(avl.origin.left.right.right.right)
+
+    #     self.assertEqual(11, avl.origin.right.value)
+    #     self.assertEqual(avl.origin, avl.origin.right.parent)
+    #     self.assertIsNone(avl.origin.right.left)
+
+    #     self.assertEqual(12, avl.origin.right.right.value)
+    #     self.assertEqual(avl.origin.right, avl.origin.right.right.parent)
+    #     self.assertIsNone(avl.origin.right.right.left)
+    #     self.assertIsNone(avl.origin.right.right.right)
+
+    #     """
+    #     (6) test advanced left, rotating not at origin
+    #     initial structure:
+    #     	3
+    #        / \
+    #       2   10
+    #      /   /  \
+    #     1   5   12
+    #            /  \
+    #           11   13
+    #                  \
+    #                   14
+    #     final structure:
+    #     	3
+    #        / \
+    #       2   12
+    #      /   /  \
+    #     1   10   13
+    #        /  \    \
+    #       5   11   14
+    #     """
+    #     avl = AVLTree()
+    #     avl.origin = Node(3)
+    #     avl.origin.left = Node(2, parent=avl.origin)
+    #     avl.origin.left.left = Node(1, parent=avl.origin.left)
+    #     avl.origin.right = Node(10, parent=avl.origin)
+    #     avl.origin.right.left = Node(5, parent=avl.origin.right)
+    #     avl.origin.right.right = Node(12, parent=avl.origin.right)
+    #     avl.origin.right.right.left = Node(11, parent=avl.origin.right.right)
+    #     avl.origin.right.right.right = Node(13, parent=avl.origin.right.right)
+    #     avl.origin.right.right.right.right = Node(
+    #         14, parent=avl.origin.right.right.right)
+
+    #     node = avl.left_rotate(avl.origin.right)
+    #     self.assertIsInstance(node, Node)
+    #     self.assertEqual(12, node.value)
+
+    #     self.assertEqual(3, avl.origin.value)
+    #     self.assertIsNone(avl.origin.parent)
+
+    #     self.assertEqual(2, avl.origin.left.value)
+    #     self.assertEqual(avl.origin, avl.origin.left.parent)
+    #     self.assertIsNone(avl.origin.left.right)
+
+    #     self.assertEqual(1, avl.origin.left.left.value)
+    #     self.assertEqual(avl.origin.left, avl.origin.left.left.parent)
+    #     self.assertIsNone(avl.origin.left.left.left)
+    #     self.assertIsNone(avl.origin.left.left.right)
+
+    #     self.assertEqual(12, avl.origin.right.value)
+    #     self.assertEqual(avl.origin, avl.origin.right.parent)
+
+    #     self.assertEqual(10, avl.origin.right.left.value)
+    #     self.assertEqual(avl.origin.right, avl.origin.right.left.parent)
+
+    #     self.assertEqual(5, avl.origin.right.left.left.value)
+    #     self.assertEqual(avl.origin.right.left,
+    #                      avl.origin.right.left.left.parent)
+    #     self.assertIsNone(avl.origin.right.left.left.left)
+    #     self.assertIsNone(avl.origin.right.left.left.right)
+
+    #     self.assertEqual(11, avl.origin.right.left.right.value)
+    #     self.assertEqual(avl.origin.right.left,
+    #                      avl.origin.right.left.right.parent)
+    #     self.assertIsNone(avl.origin.right.left.right.left)
+    #     self.assertIsNone(avl.origin.right.left.right.right)
+
+    #     self.assertEqual(13, avl.origin.right.right.value)
+    #     self.assertEqual(avl.origin.right, avl.origin.right.right.parent)
+    #     self.assertIsNone(avl.origin.right.right.left)
+
+    #     self.assertEqual(14, avl.origin.right.right.right.value)
+    #     self.assertEqual(avl.origin.right.right,
+    #                      avl.origin.right.right.right.parent)
+    #     self.assertIsNone(avl.origin.right.right.right.left)
+    #     self.assertIsNone(avl.origin.right.right.right.right)
+
+    # def test_balance_factor(self):
+
+    #     # ensure empty tree is properly handled
+    #     avl = AVLTree()
+    #     self.assertEqual(0, avl.balance_factor(avl.origin))
+
+    #     """
+    #     (1) test on balanced tree
+    #     structure:
+    #       2
+    #      / \
+    #     1   3
+    #     """
+    #     avl.origin = Node(2)
+    #     avl.origin.height = 1
+    #     avl.origin.left = Node(1, parent=avl.origin)
+    #     avl.origin.left.height = 0
+    #     avl.origin.right = Node(3, parent=avl.origin)
+    #     avl.origin.right.height = 0
+    #     avl.size = 3
+
+    #     self.assertEqual(0, avl.balance_factor(avl.origin))
+    #     self.assertEqual(0, avl.balance_factor(avl.origin.left))
+    #     self.assertEqual(0, avl.balance_factor(avl.origin.right))
+
+    #     """
+    #     (2) test on unbalanced left
+    #     structure:
+    #         3
+    #        /
+    #       2
+    #      /
+    #     1
+    #     """
+    #     avl = AVLTree()
+    #     avl.origin = Node(3)
+    #     avl.origin.height = 2
+    #     avl.origin.left = Node(2, parent=avl.origin)
+    #     avl.origin.left.height = 1
+    #     avl.origin.left.left = Node(1, parent=avl.origin.left)
+    #     avl.origin.left.left.height = 0
+    #     avl.size = 3
+
+    #     self.assertEqual(2, avl.balance_factor(avl.origin))
+    #     self.assertEqual(1, avl.balance_factor(avl.origin.left))
+    #     self.assertEqual(0, avl.balance_factor(avl.origin.left.left))
+
+    #     """
+    #     (2) test on unbalanced right
+    #     structure:
+    #     1
+    #      \
+    #       2
+    #        \
+    #         3
+    #     """
+    #     avl = AVLTree()
+    #     avl.origin = Node(1)
+    #     avl.origin.height = 2
+    #     avl.origin.right = Node(2, parent=avl.origin)
+    #     avl.origin.right.height = 1
+    #     avl.origin.right.right = Node(3, parent=avl.origin.right)
+    #     avl.origin.right.right.height = 0
+    #     avl.size = 3
+
+    #     self.assertEqual(-2, avl.balance_factor(avl.origin))
+    #     self.assertEqual(-1, avl.balance_factor(avl.origin.right))
+    #     self.assertEqual(0, avl.balance_factor(avl.origin.right.right))
+
+    # def test_rebalance(self):
+
+    #     # ensure empty tree is properly handled
+    #     avl = AVLTree()
+    #     self.assertIsNone(avl.rebalance(avl.origin))
+
+    #     """
+    #     (1) test balanced tree (do nothing)
+    #     initial and final structure:
+    #       2
+    #      / \
+    #     1   3
+    #     since pointers are already tested in rotation testcase, only check values and heights
+    #     """
+    #     avl.origin = Node(2)
+    #     avl.origin.height = 1
+    #     avl.origin.left = Node(1, parent=avl.origin)
+    #     avl.origin.left.height = 0
+    #     avl.origin.right = Node(3, parent=avl.origin)
+    #     avl.origin.right.height = 0
+    #     avl.size = 3
+
+    #     node = avl.rebalance(avl.origin)
+    #     self.assertIsInstance(node, Node)
+    #     self.assertEqual(2, node.value)
+
+    #     self.assertEqual(2, avl.origin.value)
+    #     self.assertEqual(1, avl.origin.height)
+    #     self.assertEqual(1, avl.origin.left.value)
+    #     self.assertEqual(0, avl.origin.left.height)
+    #     self.assertEqual(3, avl.origin.right.value)
+    #     self.assertEqual(0, avl.origin.right.height)
+
+    #     """
+    #     (2) test left-left rebalance
+    #     initial structure:
+    #         4
+    #        /
+    #       2
+    #      / \
+    #     1   3
+    #     final structure:
+    #       2
+    #      / \
+    #     1   4
+    #        /
+    #       3
+    #     """
+    #     avl = AVLTree()
+    #     avl.origin = Node(4)
+    #     avl.origin.height = 2
+    #     avl.origin.left = Node(2, parent=avl.origin)
+    #     avl.origin.left.height = 1
+    #     avl.origin.left.left = Node(1, parent=avl.origin.left)
+    #     avl.origin.left.left.height = 0
+    #     avl.origin.left.right = Node(3, parent=avl.origin.left)
+    #     avl.origin.left.right.height = 0
+    #     avl.size = 4
+
+    #     node = avl.rebalance(avl.origin)
+    #     self.assertIsInstance(node, Node)
+    #     self.assertEqual(2, node.value)
+
+    #     self.assertEqual(2, avl.origin.value)
+    #     self.assertEqual(2, avl.origin.height)
+    #     self.assertEqual(1, avl.origin.left.value)
+    #     self.assertEqual(0, avl.origin.left.height)
+    #     self.assertEqual(4, avl.origin.right.value)
+    #     self.assertEqual(1, avl.origin.right.height)
+    #     self.assertEqual(3, avl.origin.right.left.value)
+    #     self.assertEqual(0, avl.origin.right.left.height)
+
+    #     """
+    #     (2) test right-right rebalance
+    #     initial structure:
+    #     1
+    #      \
+    #       3
+    #      /  \
+    #     2    4
+    #     final structure:
+    #       3
+    #      / \
+    #     1   4
+    #      \
+    #       2
+    #     """
+    #     avl = AVLTree()
+    #     avl.origin = Node(1)
+    #     avl.origin.height = 2
+    #     avl.origin.right = Node(3, parent=avl.origin)
+    #     avl.origin.right.height = 1
+    #     avl.origin.right.right = Node(4, parent=avl.origin.right)
+    #     avl.origin.right.right.height = 0
+    #     avl.origin.right.left = Node(2, parent=avl.origin.right)
+    #     avl.origin.right.left.height = 0
+    #     avl.size = 4
+
+    #     node = avl.rebalance(avl.origin)
+    #     self.assertIsInstance(node, Node)
+    #     self.assertEqual(3, node.value)
+
+    #     self.assertEqual(3, avl.origin.value)
+    #     self.assertEqual(2, avl.origin.height)
+    #     self.assertEqual(1, avl.origin.left.value)
+    #     self.assertEqual(1, avl.origin.left.height)
+    #     self.assertEqual(4, avl.origin.right.value)
+    #     self.assertEqual(0, avl.origin.right.height)
+    #     self.assertEqual(2, avl.origin.left.right.value)
+    #     self.assertEqual(0, avl.origin.left.right.height)
+
+        """
+        (4) test left-right rebalance
+        initial structure:
+            5
+           / \
+          2   6
+         / \
+        1   3
+             \
+              4
+        intermediate structure:
+              5
+             / \
+            3   6
+           / \
+          2   4
+         /
+        1
+        final structure:
+            3 
+           / \
+          2   5
+         /   / \
+        1   4   6
+        """
+        avl = AVLTree()
+        avl.origin = Node(5)
+        avl.origin.height = 3
+        avl.origin.left = Node(2, parent=avl.origin)
+        avl.origin.left.height = 2
+        avl.origin.right = Node(6, parent=avl.origin)
+        avl.origin.right.height = 0
+        avl.origin.left.left = Node(1, parent=avl.origin.left)
+        avl.origin.left.left.height = 0
+        avl.origin.left.right = Node(3, parent=avl.origin.left)
+        avl.origin.left.right.height = 1
+        avl.origin.left.right.right = Node(4, parent=avl.origin.left.right)
+        avl.origin.left.right.right.height = 0
+
+        print(avl)
+        node = avl.rebalance(avl.origin)
+        print(avl)
+        self.assertIsInstance(node, Node)
+        self.assertEqual(3, node.value)
+
+        self.assertEqual(3, avl.origin.value)
+        self.assertEqual(2, avl.origin.height)
+        self.assertEqual(2, avl.origin.left.value)
+        self.assertEqual(1, avl.origin.left.height)
+        self.assertEqual(5, avl.origin.right.value)
+        self.assertEqual(1, avl.origin.right.height)
+        self.assertEqual(1, avl.origin.left.left.value)
+        self.assertEqual(0, avl.origin.left.left.height)
+        self.assertEqual(4, avl.origin.right.left.value)
+        self.assertEqual(0, avl.origin.right.left.height)
+        self.assertEqual(6, avl.origin.right.right.value)
+        self.assertEqual(0, avl.origin.right.right.height)
+
+    #     """
+    #     (5) test right-left rebalance
+    #     initial structure:
+    #       2
+    #      / \
+    #     1   5
+    #        / \
+    #       4   6
+    #      /
+    #     3
+    #     intermediate structure:
+    #       2
+    #      / \
+    #     1   4
+    #        / \
+    #       3   5
+    #            \
+    #             6
+    #     final structure:
+    #         4 
+    #        / \
+    #       2   5
+    #      / \   \
+    #     1   3   6
+    #     """
+    #     avl = AVLTree()
+    #     avl.origin = Node(2)
+    #     avl.origin.height = 3
+    #     avl.origin.left = Node(1, parent=avl.origin)
+    #     avl.origin.left.height = 0
+    #     avl.origin.right = Node(5, parent=avl.origin)
+    #     avl.origin.right.height = 2
+    #     avl.origin.right.left = Node(4, parent=avl.origin.right)
+    #     avl.origin.right.left.height = 1
+    #     avl.origin.right.right = Node(6, parent=avl.origin.right)
+    #     avl.origin.right.right.height = 0
+    #     avl.origin.right.left.left = Node(3, parent=avl.origin.right.left)
+    #     avl.origin.right.left.left.height = 0
+
+    #     node = avl.rebalance(avl.origin)
+    #     self.assertIsInstance(node, Node)
+    #     self.assertEqual(4, node.value)
+
+    #     self.assertEqual(4, avl.origin.value)
+    #     self.assertEqual(2, avl.origin.height)
+    #     self.assertEqual(2, avl.origin.left.value)
+    #     self.assertEqual(1, avl.origin.left.height)
+    #     self.assertEqual(5, avl.origin.right.value)
+    #     self.assertEqual(1, avl.origin.right.height)
+    #     self.assertEqual(1, avl.origin.left.left.value)
+    #     self.assertEqual(0, avl.origin.left.left.height)
+    #     self.assertEqual(3, avl.origin.left.right.value)
+    #     self.assertEqual(0, avl.origin.left.right.height)
+    #     self.assertEqual(6, avl.origin.right.right.value)
+    #     self.assertEqual(0, avl.origin.right.right.height)
 
 #     def test_insert(self):
 

@@ -223,7 +223,7 @@ class BinarySearchTree:
 
 
 
-class AVLTree:
+class AVLTree(BinarySearchTree):
     """
     Implementation of an AVL tree.
     Modify only below indicated line.
@@ -255,6 +255,7 @@ class AVLTree:
 
         :return: string representation of the BSTree
         """
+
         return repr(self)
 
     ########################################
@@ -265,92 +266,234 @@ class AVLTree:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        if root is None:
+            return -1
+        return root.height
 
     def left_rotate(self, root: Node) -> Optional[Node]:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        if root is None:
+            return
+        print(self)
+        print(root)
+        def update_height(root: Node) -> None:
+            if root is None:
+                return
+
+            root.height = max(self.height(root.left)+1, self.height(root.right)+1)
+            update_height(root.parent)
+
+        def set_child(root, right, child):
+            if right:
+                root.right = child
+            else:
+                root.left = child
+            if child is not None:
+                child.parent = root
+
+        right_left = root.right.left
+        if root.parent != None:
+            if root.parent.right == root:
+                set_child(root.parent, True, root.right)
+            elif root.parent.left == root:
+                set_child(root.parent, False, root.left)
+            # update_height(root.parent)
+        else:
+            self.origin = root.right
+            self.origin.parent = None
+
+        set_child(root.right, False, root)
+        set_child(root, True, right_left)
+        # update_height(root.parent)
+        update_height(root.right)
+        print(self)
+        print(root)
+        return root.parent
 
     def right_rotate(self, root: Node) -> Optional[Node]:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        if root is None:
+            return
+        
+        def update_height(root: Node) -> None:
+            if root is None:
+                return
+            root.height = max(self.height(root.left)+1, self.height(root.right)+1)
+            update_height(root.parent)
+
+        def set_child(root, right, child):
+            if right:
+                root.right = child
+            else:
+                root.left = child
+            if child is not None:
+                child.parent = root
+            
+            update_height(root)
+
+        left_right = root.left.right
+        if root.parent != None:
+            if root.parent.left == root:
+                set_child(root.parent, False, root.left)
+            elif root.parent.right == root:
+                set_child(root.parent, True, root.left)
+        else:
+            self.origin = root.left
+            self.origin.parent = None
+
+        set_child(root.left, True, root)
+        set_child(root, False, left_right)
+        
+        return root.parent
 
     def balance_factor(self, root: Node) -> int:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        if root is None:
+            return 0
+        left = self.height(root.left)
+        right = self.height(root.right)
+        return left - right
 
     def rebalance(self, root: Node) -> Optional[Node]:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        if self.balance_factor(root) == -2:
+            if self.balance_factor(root.right) == 1:
+                self.right_rotate(root.right)
+            return self.left_rotate(root)
+        elif self.balance_factor(root) == 2:
+            print(self)
+            if self.balance_factor(root.left) == -1:
+                self.left_rotate(root.left)
+            print(self)
+            return self.right_rotate(root)
+        return root
+        # if abs(balance) > 1:
+        #     if root.parent is None:
+        #         parent_right = balance < 0
+        #     else:
+        #         parent_right = root.parent.right == root
+        #     if parent_right:
+        #         if balance >= 0:
+        #             # right righ
+        #             root = self.left_rotate(root)
+        #         else:
+        #             # right left
+        #             root = self.right_rotate(root)
+        #             root = self.left_rotate(root.parent)
+        #     else:
+        #         if balance <= 0:
+        #             # left left
+        #             root = self.right_rotate(root)
+        #         else:
+        #             # left right
+        #             root = self.left_rotate(root)
+        #             root = self.right_rotate(root.parent)
+        # 
+        # return root
 
     def insert(self, root: Node, val: T, data: str = None) -> Optional[Node]:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        super().insert(root, val)
+        root = self.rebalance(root)
+        return root
 
     def remove(self, root: Node, val: T) -> Optional[Node]:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        node = super().remove(root, val)
+        if node is None:
+            return root
+        root = self.rebalance(root)
+        return root
 
     def min(self, root: Node) -> Optional[Node]:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        while root.left:
+            root = root.left
+        return root.value
 
     def max(self, root: Node) -> Optional[Node]:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        while root.right:
+            root = root.right
+        return root.value
 
     def search(self, root: Node, val: T) -> Optional[Node]:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        return super().search(root, val)
 
     def inorder(self, root: Node) -> Generator[Node, None, None]:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        if root.left:
+            yield self.inorder(root.left)
+        yield root.value
+        if root.right:
+            yield self.inorder(root.right)
 
     def __iter__(self) -> Generator[Node, None, None]:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        return self.inorder
 
     def preorder(self, root: Node) -> Generator[Node, None, None]:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        yield root.value
+        if root.left:
+            yield self.inorder(root.left)
+        if root.right:
+            yield self.inorder(root.right)
 
     def postorder(self, root: Node) -> Generator[Node, None, None]:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        if root.left:
+            yield self.inorder(root.left)
+        if root.right:
+            yield self.inorder(root.right)
+        yield root.value
 
     def levelorder(self, root: Node) -> Generator[Node, None, None]:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        queue = SimpleQueue()
+        queue.put(root)
+        while queue:
+            new_queue = SimpleQueue()
+            while queue:
+                node = queue.get_nowait()
+                
+                yield node.value
+
+                if node.left:
+                    new_queue.put(node.left)
+                if node.right:
+                    new_queue.put(node.right)
         
+            queue = new_queue
 # Classifier
 class KNNClassifier:
 
