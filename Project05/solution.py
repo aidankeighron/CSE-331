@@ -101,7 +101,10 @@ class BinarySearchTree:
 
     def height(self, root: Node) -> int:
         """
-        INSERT DOCSTRING HERE
+        Gets the height of a subtree        
+
+        :param root: subtree to get height of
+        :return: height
         """
         if root is None:
           return -1
@@ -109,7 +112,11 @@ class BinarySearchTree:
 
     def insert(self, root: Node, val: T) -> None:
         """
-        INSERT DOCSTRING HERE
+        Inserts a node into a subtree
+
+        :param root: subtree to insert a node into
+        :param val: node value to insert
+        :return: None
         """
         def update_height(root: Node, height: int) -> None:
             if root is None:
@@ -144,7 +151,11 @@ class BinarySearchTree:
 
     def remove(self, root: Node, val: T) -> Optional[Node]:
         """
-        INSERT DOCSTRING HERE
+        Removes a node from a subtree
+
+        :param root: subtree to remove a node from
+        :param val: value to remove from the subtree
+        :return: subtree after removal
         """
         def update_height(root: Node) -> None:
             if root is None:
@@ -206,7 +217,11 @@ class BinarySearchTree:
 
     def search(self, root: Node, val: T) -> Optional[Node]:
         """
-        INSERT DOCSTRING HERE
+        Searches for a node in a subtree
+
+        :param root: subtree to search for a node in
+        :param val: value to search for
+        :return: if node exists return the node else return None
         """
         if root is None:
             return None
@@ -264,7 +279,10 @@ class AVLTree(BinarySearchTree):
 
     def height(self, root: Node) -> int:
         """
-        INSERT DOCSTRING HERE
+        Height of the subtree
+
+        :param root: subtree to get the height of
+        :return: height
         """
         if root is None:
             return -1
@@ -272,7 +290,10 @@ class AVLTree(BinarySearchTree):
 
     def left_rotate(self, root: Node) -> Optional[Node]:
         """
-        INSERT DOCSTRING HERE
+        Rotates root subtree to the right
+
+        :param root: subtree to rotate
+        :return: new root of the subtree
         """
         if root is None:
             return
@@ -309,7 +330,10 @@ class AVLTree(BinarySearchTree):
 
     def right_rotate(self, root: Node) -> Optional[Node]:
         """
-        INSERT DOCSTRING HERE
+        Rotates a subtree to the right
+
+        :param root: subtree to rotate
+        :return: new root node
         """
         if root is None:
             return
@@ -347,7 +371,10 @@ class AVLTree(BinarySearchTree):
 
     def balance_factor(self, root: Node) -> int:
         """
-        INSERT DOCSTRING HERE
+        gets the balance factor of a subtree
+
+        :param root: subtree to get the balance factor of
+        :return: balance factor
         """
         if root is None:
             return 0
@@ -357,7 +384,10 @@ class AVLTree(BinarySearchTree):
 
     def rebalance(self, root: Node) -> Optional[Node]:
         """
-        INSERT DOCSTRING HERE
+        rebalance a subtree to ensure the balance factor is between -1 and 1
+
+        :param root: subtree to balance
+        :return: root of balanced subtree
         """
         if self.balance_factor(root) == -2:
             if self.balance_factor(root.right) == 1:
@@ -371,7 +401,12 @@ class AVLTree(BinarySearchTree):
 
     def insert(self, root: Node, val: T, data: str = None) -> Optional[Node]:
         """
-        INSERT DOCSTRING HERE
+        inserts a node into subtree making sure the tree is balanced
+
+        :param root: subtree to insert into 
+        :param val: value of inserted node
+        :param data: data of inserted node
+        :return: root of the subtree after insertion
         """
         def insert_node(root, value):
             def update_height(root: Node, height: int) -> None:
@@ -413,7 +448,11 @@ class AVLTree(BinarySearchTree):
 
     def remove(self, root: Node, val: T) -> Optional[Node]:
         """
-        INSERT DOCSTRING HERE
+        removes a node from a subtree making sure to keep it balanced
+
+        :param root: subtree to remove node from
+        :param val: value of the node to remove
+        :return: subtree after removal
         """
         node = super().remove(root, val)
         if node is None:
@@ -423,7 +462,10 @@ class AVLTree(BinarySearchTree):
 
     def min(self, root: Node) -> Optional[Node]:
         """
-        INSERT DOCSTRING HERE
+        minimum value of the subtree
+
+        :param root: subtree to find the min of 
+        :return: min of the subtree
         """
         if root is None:
             return None
@@ -433,7 +475,10 @@ class AVLTree(BinarySearchTree):
 
     def max(self, root: Node) -> Optional[Node]:
         """
-        INSERT DOCSTRING HERE
+        maximum value of the subtree
+
+        :param root: subtree to find the max of 
+        :return: max of the subtree
         """
         if root is None:
             return None
@@ -443,13 +488,20 @@ class AVLTree(BinarySearchTree):
 
     def search(self, root: Node, val: T) -> Optional[Node]:
         """
-        INSERT DOCSTRING HERE
+        searches for a node within a subtree
+
+        :param root: subtree to search for node in 
+        :param val: value to search for  
+        :return: the node if it exists in the tree else None
         """
         return super().search(root, val)
 
     def inorder(self, root: Node) -> Generator[Node, None, None]:
         """
-        INSERT DOCSTRING HERE
+        inorder of a subtree
+
+        :param root: subtree to traverse 
+        :return: generator for the traversal
         """
         if root is None:
             return StopIteration
@@ -460,13 +512,18 @@ class AVLTree(BinarySearchTree):
 
     def __iter__(self) -> Generator[Node, None, None]:
         """
-        INSERT DOCSTRING HERE
+        iterator for the entire tree
+ 
+        :return: generator for the tree
         """
         return self.inorder(self.origin)
 
     def preorder(self, root: Node) -> Generator[Node, None, None]:
         """
-        INSERT DOCSTRING HERE
+        preorder of a subtree
+
+        :param root: subtree to traverse 
+        :return: generator for the traversal
         """
         if root is None:
             return StopIteration
@@ -477,7 +534,10 @@ class AVLTree(BinarySearchTree):
 
     def postorder(self, root: Node) -> Generator[Node, None, None]:
         """
-        INSERT DOCSTRING HERE
+        postorder of a subtree
+
+        :param root: subtree to traverse 
+        :return: generator for the traversal
         """
         if root is None:
             return StopIteration
@@ -488,7 +548,10 @@ class AVLTree(BinarySearchTree):
 
     def levelorder(self, root: Node) -> Generator[Node, None, None]:
         """
-        INSERT DOCSTRING HERE
+        levelorder of a subtree
+
+        :param root: subtree to traverse 
+        :return: generator for the traversal
         """
         queue = SimpleQueue()
         queue.put(root)
@@ -538,16 +601,21 @@ class KNNClassifier:
     ######################################## 
     def train(self, data: List[Tuple[float, str]]) -> None:
         """
-        INSERT DOCSTRING HERE
+        trains the classifier by adding nodes into a tree
+
+        :param data: list of node to add 
+        :return: None
         """
         for val, d in data:
             self.tree.insert(self.tree.origin, val, data=d)
     
     def get_k_neighbors(self, value: float) -> List[Tuple[float, str]]:
         """
-        INSERT DOCSTRING HERE
-        """
+        gets the k nearest elements to the provided value removing ties
 
+        :param value: value to compare with 
+        :return: list of k nearest neighbors
+        """
         nodes = []
         for node in self.tree:
             difference = abs(node.value - value)
@@ -581,7 +649,10 @@ class KNNClassifier:
     
     def calculate_best_fit(self, neighbors: List[Tuple[float, str]], value: float) -> str:
         """
-        INSERT DOCSTRING HERE
+        calculates the best fitting neighbor given a list of neighbors
+
+        :param neighbors: neighbors to compare  
+        :return: best fitting neighbor
         """
         if not neighbors:
             return None
@@ -595,7 +666,10 @@ class KNNClassifier:
     
     def classify(self, value: float) -> str:
         """
-        INSERT DOCSTRING HERE
+        finds the best fitting neighbor given a value to compare it against
+
+        :param value: value to compare against 
+        :return: best fitting neighbor
         """
         neighbors = self.get_k_neighbors(value)
         best_fit = self.calculate_best_fit(neighbors, value)
