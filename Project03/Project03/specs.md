@@ -12,7 +12,7 @@ expected run time of O(1) time. This allows them to be very powerful in storing 
 ![hashtables.png](img/hashtables.png)
 
 ```python
->> > print(fruit_colors["banana"])
+>> > (fruit_colors["banana"])
 yellow
 ```
 

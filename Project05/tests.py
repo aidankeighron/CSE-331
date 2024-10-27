@@ -1590,10 +1590,8 @@ class AVLTreeTests(unittest.TestCase):
         generator = avl.inorder(avl.origin)
         self.assertIsInstance(generator, types.GeneratorType)
         expected = list(range(10))
-        print(avl)
         for num in expected:
             node = next(generator)
-            print(node, "C")
             self.assertIsInstance(node, Node)
             self.assertEqual(num, node.value)
         with self.assertRaises(StopIteration):
@@ -2131,89 +2129,89 @@ class AVLTreeTests(unittest.TestCase):
         check_node_properties(avl.origin.left.right.left,
                               value=3, height=0, balance=0)
 
-#     def test_knn(self):
-#         """
-#         Testing specs examples
-#         """
-#         data = [(0.1, "L"), (0.2, "L"), (0.6, "W"), (0.7, "W"), (0.5, "W")]
-#         classifier = KNNClassifier(k=2)
-#         classifier.train(data)
-#         self.assertEqual(classifier.classify(0.55),"W")
+    def test_knn(self):
+        """
+        Testing specs examples
+        """
+        data = [(0.1, "L"), (0.2, "L"), (0.6, "W"), (0.7, "W"), (0.5, "W")]
+        classifier = KNNClassifier(k=2)
+        classifier.train(data)
+        self.assertEqual(classifier.classify(0.55),"W")
 
-#         data = [(0.1, "L"), (0.2, "L"), (0.6, "W"), (0.7, "W")]
-#         classifier = KNNClassifier()
-#         classifier.train(data)
-#         self.assertIsNone(classifier.classify(0.4))
+        data = [(0.1, "L"), (0.2, "L"), (0.6, "W"), (0.7, "W")]
+        classifier = KNNClassifier()
+        classifier.train(data)
+        self.assertIsNone(classifier.classify(0.4))
 
-#         data = [(0.1, "L"), (0.2, "L"), (0.6, "W"), (0.7, "W"), (0.5, "L")]
-#         classifier = KNNClassifier()
-#         classifier.train(data)
-#         self.assertEqual(classifier.classify(0.4), "L")
+        data = [(0.1, "L"), (0.2, "L"), (0.6, "W"), (0.7, "W"), (0.5, "L")]
+        classifier = KNNClassifier()
+        classifier.train(data)
+        self.assertEqual(classifier.classify(0.4), "L")
 
-#         # Testing 1 closest neighbor
-#         data = [(0.18, "night"), (0.21, "night"), (0.29, "night"), (0.46, "night"),
-#         (0.49, "night"), (0.51, "day"), (0.53, "day"),
-#         (0.97, "day"), (0.98, "day"), (0.99, "day")]
-#         classifier = KNNClassifier()
-#         classifier.train(data)
-#         test_predictions = [0.1, 0.2, 0.5, 0.8, 0.9]
-#         expected = ["night", "night", "day", "day", "day"]
-#         actual = [classifier.classify(i) for i in test_predictions]
-#         self.assertEqual(expected, actual)
+        # Testing 1 closest neighbor
+        data = [(0.18, "night"), (0.21, "night"), (0.29, "night"), (0.46, "night"),
+        (0.49, "night"), (0.51, "day"), (0.53, "day"),
+        (0.97, "day"), (0.98, "day"), (0.99, "day")]
+        classifier = KNNClassifier()
+        classifier.train(data)
+        test_predictions = [0.1, 0.2, 0.5, 0.8, 0.9]
+        expected = ["night", "night", "day", "day", "day"]
+        actual = [classifier.classify(i) for i in test_predictions]
+        self.assertEqual(expected, actual)
 
-#         # Testing 2 closest neighbors
-#         classifier = KNNClassifier(k=2)
-#         classifier.train(data)
-#         test_predictions = [0.1, 0.2, 0.5, 0.8, 0.9]
-#         expected = ["night", "night", "day", "day", "day"]
-#         actual = [classifier.classify(i) for i in test_predictions]
-#         self.assertEqual(expected, actual)
+        # Testing 2 closest neighbors
+        classifier = KNNClassifier(k=2)
+        classifier.train(data)
+        test_predictions = [0.1, 0.2, 0.5, 0.8, 0.9]
+        expected = ["night", "night", "day", "day", "day"]
+        actual = [classifier.classify(i) for i in test_predictions]
+        self.assertEqual(expected, actual)
 
-#         # Testing 3 closest neighbors, weights make a difference here. Even if there are more neighbors for one classification.
-#         classifier = KNNClassifier(k=3)
-#         classifier.train(data)
-#         test_predictions = [0.1, 0.2, 0.5, 0.8, 0.9]
-#         expected = ["night", "night", "day", "day", "day"]
-#         actual = [classifier.classify(i) for i in test_predictions]
-#         self.assertEqual(expected, actual)
+        # Testing 3 closest neighbors, weights make a difference here. Even if there are more neighbors for one classification.
+        classifier = KNNClassifier(k=3)
+        classifier.train(data)
+        test_predictions = [0.1, 0.2, 0.5, 0.8, 0.9]
+        expected = ["night", "night", "day", "day", "day"]
+        actual = [classifier.classify(i) for i in test_predictions]
+        self.assertEqual(expected, actual)
 
-#         # Changing weights to affect classification
-#         data[2] = (0.43, "night")
-#         classifier = KNNClassifier(k=3)
-#         classifier.train(data)
-#         test_predictions = [0.1, 0.2, 0.5, 0.8, 0.9]
-#         expected = ["night", "night", "night", "day", "day"]
-#         actual = [classifier.classify(i) for i in test_predictions]
-#         self.assertEqual(expected, actual)
+        # Changing weights to affect classification
+        data[2] = (0.43, "night")
+        classifier = KNNClassifier(k=3)
+        classifier.train(data)
+        test_predictions = [0.1, 0.2, 0.5, 0.8, 0.9]
+        expected = ["night", "night", "night", "day", "day"]
+        actual = [classifier.classify(i) for i in test_predictions]
+        self.assertEqual(expected, actual)
     
-#         #Test tied weights/distances
-#         points = [i/10 for i in range(0,11) if i != 5]
-#         labels = ["day"] * 5 + ["night"]*5
-#         data = zip(points, labels)
-#         classifier = KNNClassifier()
-#         classifier.train(data)
-#         self.assertIsNone(classifier.classify(0.5))
+        #Test tied weights/distances
+        points = [i/10 for i in range(0,11) if i != 5]
+        labels = ["day"] * 5 + ["night"]*5
+        data = zip(points, labels)
+        classifier = KNNClassifier()
+        classifier.train(data)
+        self.assertIsNone(classifier.classify(0.5))
 
-#         classifier = KNNClassifier(k=3)
-#         classifier.train(data)
-#         self.assertIsNone(classifier.classify(0.5))
+        classifier = KNNClassifier(k=3)
+        classifier.train(data)
+        self.assertIsNone(classifier.classify(0.5))
 
-#         classifier = KNNClassifier(k=4)
-#         classifier.train(data)
-#         self.assertIsNone(classifier.classify(0.5))
+        classifier = KNNClassifier(k=4)
+        classifier.train(data)
+        self.assertIsNone(classifier.classify(0.5))
 
-#         # Test from previous projects
-#         random.seed(331)
-#         night_images = [(random.random() / 2, "night") for _ in range(50)]
-#         day_images = [(random.random() / 2 + 0.5, "day") for _ in range(50)]
-#         data = night_images + day_images
+        # Test from previous projects
+        random.seed(331)
+        night_images = [(random.random() / 2, "night") for _ in range(50)]
+        day_images = [(random.random() / 2 + 0.5, "day") for _ in range(50)]
+        data = night_images + day_images
 
-#         classifier = KNNClassifier()
-#         classifier.train(data)
-#         test_images = [0.1, 0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 0.9]
-#         expected = ["night"] * 4 + ["day"] * 4
-#         actual = [classifier.classify(image) for image in test_images]
-#         self.assertEqual(expected, actual)
+        classifier = KNNClassifier()
+        classifier.train(data)
+        test_images = [0.1, 0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 0.9]
+        expected = ["night"] * 4 + ["day"] * 4
+        actual = [classifier.classify(image) for image in test_images]
+        self.assertEqual(expected, actual)
 
 
 if __name__ == '__main__':

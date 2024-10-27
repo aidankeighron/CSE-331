@@ -373,7 +373,39 @@ class AVLTree(BinarySearchTree):
         """
         INSERT DOCSTRING HERE
         """
-        super().insert(root, val)
+        def insert_node(root, value):
+            def update_height(root: Node, height: int) -> None:
+                if root is None:
+                    return
+                root.height = max(height, root.height)
+                update_height(root.parent, height+1)
+
+            if root is None and self.origin is None:
+                node = Node(value, data=data)
+                self.origin = node
+                self.size += 1
+                return
+                
+            if root is None or root.value == value:
+                return
+            if value > root.value:
+                if root.right:
+                    self.insert(root.right, value, data)
+                    return
+                node = Node(value, root, data=data)
+                root.right = node
+            else:
+                if root.left:
+                    self.insert(root.left, value, data)
+                    return
+                node = Node(value, root, data=data)
+                root.left = node
+
+            update_height(root, 1)
+            self.size += 1
+
+        insert_node(root, val)
+
         if root is None:
             root = self.origin
         root = self.rebalance(root)
@@ -508,25 +540,66 @@ class KNNClassifier:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        for val, d in data:
+            self.tree.insert(self.tree.origin, val, data=d)
     
     def get_k_neighbors(self, value: float) -> List[Tuple[float, str]]:
         """
         INSERT DOCSTRING HERE
         """
-        pass
 
+        nodes = []
+        for node in self.tree:
+            difference = abs(node.value - value)
+            nodes.append((difference, node.value, node.data))
+
+        if not nodes:
+            return []
+
+        # Sort by distance
+        nodes.sort(key=lambda node: node[0])
+        
+        # Get k neighbors, handling ties
+        neighbors = []
+        prev_distance = None
+        
+        for i, (distance, val, data) in enumerate(nodes):
+            if len(neighbors) == self.k:
+                if i < len(nodes) and self.floats_equal(distance, nodes[i-1][0]):
+                    neighbors.pop()
+                    continue
+                break
+            
+            if prev_distance is None and len(nodes) >= 2:
+                prev_distance = nodes[1][0]
+
+            if prev_distance is None or not self.floats_equal(distance, prev_distance):
+                neighbors.append((val, data))
+                prev_distance = distance
+
+        return neighbors
+    
     def calculate_best_fit(self, neighbors: List[Tuple[float, str]], value: float) -> str:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        if not neighbors:
+            return None
+        
+        weights = {}
+        for val, data in neighbors:
+            weight = 1 / abs(value - val)
+            weights[data] = (weights[data] if data in weights else 0) + weight
+
+        return max(weights.items(), key=lambda node: node[1])[0]
     
     def classify(self, value: float) -> str:
         """
         INSERT DOCSTRING HERE
         """
-        pass
+        neighbors = self.get_k_neighbors(value)
+        best_fit = self.calculate_best_fit(neighbors, value)
+        return best_fit
 
 
 ########################################################

@@ -26,7 +26,6 @@ class TestProgram(unittest.TestCase):
         teams = [[2, 1, 0], [0, 1, 2], [0, 1, 2]]
         expected = [[0, 1], [1, 0], [2, 2]]
         actual = solution.stable_assignments(candidates, teams)
-        print(actual)
         # Check if the length of actual matches the expected result
         self.assertTrue(len(actual) == len(expected))
 
