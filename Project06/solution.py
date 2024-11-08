@@ -10,7 +10,7 @@ import math
 import numpy as np
 import time
 from typing import Callable, Dict, List, Optional, Set, Tuple, TypeVar
-
+from queue import Queue
 
 T = TypeVar('T')
 Matrix = TypeVar('Matrix')  # Adjacency Matrix
@@ -363,16 +363,63 @@ class Graph:
     # ============== Modify Graph Methods Below ==============#
     def bfs(self, begin_id: str, end_id: str) -> Tuple[List[str], float]:
         """
-        INSERT DOCSTRINGS HERE -- THEY ARE FOR POINTS
+        Calculates the shortest path in terms of number of vertexes from the beginning vertex to the ending vertex
+        :param begin_id: Index of the starting node
+        :param end_id: Index of the ending node
+        :return: Tuple where first element is a list of vertex IDs specifying a path from start_id to end_id
+                 and the second element is the cost of this path
         """
-        pass
+        vertex = self.get_vertex_by_id(begin_id)
+        vertexes = Queue()
+        vertexes.put(vertex)
+        # here
+        back_edges = {}
+        found = False
+        while not vertexes.empty():
+            vertex = vertexes.get()
+            if not vertex or vertex.visited:
+                continue
+            vertex.visited = True
+            
+            for _id, _ in vertex.adj.items():
+                other_vertex = self.get_vertex_by_id(_id)
+                if other_vertex.visited:
+                    continue
+                back_edges[_id] = vertex.id
+                if _id == end_id:
+                    found = True
+                    break
+                vertexes.put(other_vertex)
+            else:
+                continue
+            break
+
+        if not len(back_edges) or not found:
+            return ([], 0)
+        return self.build_path(back_edges, begin_id, end_id)
 
     def a_star(self, begin_id: str, end_id: str,
                metric: Callable[[Vertex, Vertex], float]) -> Tuple[List[str], float]:
         """
         INSERT DOCSTRINGS HERE -- THEY ARE FOR POINTS
         """
-        pass
+        vertex = self.get_vertex_by_id(begin_id)
+        vertexes = Queue()
+        vertexes.put(vertex)
+        # here
+        back_edges = {}
+        found = False
+        while not vertexes.empty():
+            vertex = vertexes.get()
+            if not vertex or vertex.visited:
+                continue
+            vertex.visited = True
+            
+            
+
+        if not len(back_edges) or not found:
+            return ([], 0)
+        return self.build_path(back_edges, begin_id, end_id)
 
 def jumanji_path(start_row: int, start_col: int, end_row: int, end_col: int, graph: List[List[int]]) -> Tuple[List[List[int]], float]:
     ########################################
