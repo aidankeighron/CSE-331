@@ -407,8 +407,9 @@ class Graph:
             _, vertex = vertexes.pop()
             if not vertex:
                 continue
-            vertex.visited = True
-            
+            if vertex.id == end_id:
+                return self.build_path(back_edges, begin_id, end_id)
+
             for _id, weight in vertex.adj.items():
                 other_vertex = self.get_vertex_by_id(_id)
                 if other_vertex.visited:
@@ -417,9 +418,6 @@ class Graph:
                 if _id not in shortest_paths or shortest_path < shortest_paths[_id]:
                     back_edges[_id] = vertex.id
                     shortest_paths[_id] = shortest_path
-                    if _id == end_id:
-                        return self.build_path(back_edges, begin_id, end_id)
-                    
                     if _id in vertexes.locator:
                         vertexes.update(shortest_path+metric(other_vertex, end), other_vertex)
                     else:
