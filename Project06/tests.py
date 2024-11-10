@@ -96,79 +96,79 @@ class GraphTests(unittest.TestCase):
         subject = graph.bfs('a', 'z')
         self.assertEqual(([], 0), subject)
 
-#     def test_a_star(self):
+    def test_a_star(self):
 
-#         # PART ONE -- SMALLER TEST CASES
+        # PART ONE -- SMALLER TEST CASES
 
-#         # === Edge Cases === #
+        # === Edge Cases === #
 
-#         # (1) test on empty graph
-#         graph = Graph()
-#         subject = graph.a_star('a', 'b', lambda v1, v2: 0)
-#         self.assertEqual(([], 0), subject)
+        # # (1) test on empty graph
+        # graph = Graph()
+        # subject = graph.a_star('a', 'b', lambda v1, v2: 0)
+        # self.assertEqual(([], 0), subject)
 
-#         # (2) start/end vertex does not exist
-#         graph = Graph()
-#         graph.add_to_graph('a')
-#         # (2.1) start vertex
-#         subject = graph.a_star('b', 'a', lambda v1, v2: 0)
-#         self.assertEqual(([], 0), subject)
-#         # (2.2) end vertex
-#         subject = graph.a_star('a', 'b', lambda v1, v2: 0)
-#         self.assertEqual(([], 0), subject)
-#         # (2.3) Neither vertex exists (Also tested in 3)
-#         subject = graph.a_star('b', 'c', lambda v1, v2: 0)
-#         self.assertEqual(([], 0), subject)
+        # # (2) start/end vertex does not exist
+        # graph = Graph()
+        # graph.add_to_graph('a')
+        # # (2.1) start vertex
+        # subject = graph.a_star('b', 'a', lambda v1, v2: 0)
+        # self.assertEqual(([], 0), subject)
+        # # (2.2) end vertex
+        # subject = graph.a_star('a', 'b', lambda v1, v2: 0)
+        # self.assertEqual(([], 0), subject)
+        # # (2.3) Neither vertex exists (Also tested in 3)
+        # subject = graph.a_star('b', 'c', lambda v1, v2: 0)
+        # self.assertEqual(([], 0), subject)
 
-#         # (3) test for path which does not exist
-#         graph = Graph()
-#         graph.add_to_graph('a', 'b')
-#         subject = graph.a_star('b', 'a', lambda v1, v2: 0)
-#         self.assertEqual(([], 0), subject)
+        # # (3) test for path which does not exist
+        # graph = Graph()
+        # graph.add_to_graph('a', 'b')
+        # subject = graph.a_star('b', 'a', lambda v1, v2: 0)
+        # self.assertEqual(([], 0), subject)
 
-#         # === (A) Grid graph tests ===#
-#         graph = Graph()
+        # === (A) Grid graph tests ===#
+        graph = Graph()
 
-#         # (1) test on nxn grid from corner to corner: should shoot diagonal
-#         # (shortest path is unique, so each heuristic will return the same path)
-#         grid_size = 5
-#         for x in range(grid_size):
-#             for y in range(grid_size):
-#                 idx = f'{x},{y}'
-#                 graph.vertices[idx] = Vertex(idx, x, y)
-#                 graph.size += 1
+        # (1) test on nxn grid from corner to corner: should shoot diagonal
+        # (shortest path is unique, so each heuristic will return the same path)
+        grid_size = 5
+        for x in range(grid_size):
+            for y in range(grid_size):
+                idx = f'{x},{y}'
+                graph.vertices[idx] = Vertex(idx, x, y)
+                graph.size += 1
 
-#         for x in range(grid_size):
-#             for y in range(grid_size):
-#                 if x < grid_size - 1:
-#                     graph.add_to_graph(f'{x},{y}', f'{x + 1},{y}', 1)
-#                     graph.add_to_graph(f'{x + 1},{y}', f'{x},{y}', 1)
-#                 if y < grid_size - 1:
-#                     graph.add_to_graph(f'{x},{y}', f'{x},{y + 1}', 1)
-#                     graph.add_to_graph(f'{x},{y + 1}', f'{x},{y}', 1)
-#                 if x < grid_size - 1 and y < grid_size - 1:
-#                     graph.add_to_graph(f'{x},{y}', f'{x + 1},{y + 1}', math.sqrt(2))
-#                     graph.add_to_graph(f'{x + 1},{y + 1}', f'{x},{y}', math.sqrt(2))
+        for x in range(grid_size):
+            for y in range(grid_size):
+                if x < grid_size - 1:
+                    graph.add_to_graph(f'{x},{y}', f'{x + 1},{y}', 1)
+                    graph.add_to_graph(f'{x + 1},{y}', f'{x},{y}', 1)
+                if y < grid_size - 1:
+                    graph.add_to_graph(f'{x},{y}', f'{x},{y + 1}', 1)
+                    graph.add_to_graph(f'{x},{y + 1}', f'{x},{y}', 1)
+                if x < grid_size - 1 and y < grid_size - 1:
+                    graph.add_to_graph(f'{x},{y}', f'{x + 1},{y + 1}', math.sqrt(2))
+                    graph.add_to_graph(f'{x + 1},{y + 1}', f'{x},{y}', math.sqrt(2))
 
-#         for metric in [Vertex.euclidean_distance, Vertex.taxicab_distance]:
-#             subject = graph.a_star('0,0', '4,4', metric)
-#             self.assertEqual(['0,0', '1,1', '2,2', '3,3', '4,4'], subject[0])
-#             self.assertAlmostEqual((grid_size - 1) * math.sqrt(2), subject[1])
-#             graph.unvisit_vertices()
+        for metric in [Vertex.euclidean_distance, Vertex.taxicab_distance]:
+            subject = graph.a_star('0,0', '4,4', metric)
+            self.assertEqual(['0,0', '1,1', '2,2', '3,3', '4,4'], subject[0])
+            self.assertAlmostEqual((grid_size - 1) * math.sqrt(2), subject[1])
+            graph.unvisit_vertices()
 
-#         # (2) test on nxn grid with penalty for shooting diagonal
-#         # (shortest path is not unique, so each heuristic will return a different path)
-#         for x in range(grid_size - 1):
-#             for y in range(grid_size - 1):
-#                 graph.add_to_graph(f'{x},{y}', f'{x + 1},{y + 1}', 3)
-#                 graph.add_to_graph(f'{x + 1},{y + 1}', f'{x},{y}', 3)
+        # (2) test on nxn grid with penalty for shooting diagonal
+        # (shortest path is not unique, so each heuristic will return a different path)
+        for x in range(grid_size - 1):
+            for y in range(grid_size - 1):
+                graph.add_to_graph(f'{x},{y}', f'{x + 1},{y + 1}', 3)
+                graph.add_to_graph(f'{x + 1},{y + 1}', f'{x},{y}', 3)
 
-#         subject = graph.a_star('0,0', '4,4', Vertex.euclidean_distance)
-#         self.assertEqual((['0,0', '1,0', '1,1', '2,1', '2,2', '3,2', '3,3', '4,3', '4,4'], 8), subject)
-#         graph.unvisit_vertices()
-#         subject = graph.a_star('0,0', '4,4', Vertex.taxicab_distance)
-#         self.assertEqual((['0,0', '1,0', '2,0', '3,0', '4,0', '4,1', '4,2', '4,3', '4,4'], 8), subject)
-#         graph.unvisit_vertices()
+        subject = graph.a_star('0,0', '4,4', Vertex.euclidean_distance)
+        self.assertEqual((['0,0', '1,0', '1,1', '2,1', '2,2', '3,2', '3,3', '4,3', '4,4'], 8), subject)
+        graph.unvisit_vertices()
+        subject = graph.a_star('0,0', '4,4', Vertex.taxicab_distance)
+        self.assertEqual((['0,0', '1,0', '2,0', '3,0', '4,0', '4,1', '4,2', '4,3', '4,4'], 8), subject)
+        graph.unvisit_vertices()
 
 #         # === (B) Tollway graph tests ===#
 #         graph = Graph(csvf='test_csvs/astar/tollway_comprehensive_2.csv')

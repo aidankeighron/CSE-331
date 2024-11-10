@@ -372,9 +372,7 @@ class Graph:
         vertex = self.get_vertex_by_id(begin_id)
         vertexes = Queue()
         vertexes.put(vertex)
-        # here
         back_edges = {}
-        found = False
         while not vertexes.empty():
             vertex = vertexes.get()
             if not vertex or vertex.visited:
@@ -387,39 +385,47 @@ class Graph:
                     continue
                 back_edges[_id] = vertex.id
                 if _id == end_id:
-                    found = True
-                    break
+                    return self.build_path(back_edges, begin_id, end_id)
                 vertexes.put(other_vertex)
-            else:
-                continue
-            break
 
-        if not len(back_edges) or not found:
-            return ([], 0)
-        return self.build_path(back_edges, begin_id, end_id)
+        return ([], 0)
 
     def a_star(self, begin_id: str, end_id: str,
                metric: Callable[[Vertex, Vertex], float]) -> Tuple[List[str], float]:
         """
         INSERT DOCSTRINGS HERE -- THEY ARE FOR POINTS
         """
-        vertex = self.get_vertex_by_id(begin_id)
-        vertexes = Queue()
-        vertexes.put(vertex)
-        # here
+        start = self.get_vertex_by_id(begin_id)
+        end = self.get_vertex_by_id(end_id)
+        if start is None or end is None:
+            return ([], 0)
+        vertexes = PriorityQueue()
+        vertexes.push(metric(start, end), start)
+        shortest_paths = {begin_id: 0}
         back_edges = {}
-        found = False
         while not vertexes.empty():
-            vertex = vertexes.get()
-            if not vertex or vertex.visited:
+            _, vertex = vertexes.pop()
+            if not vertex:
                 continue
             vertex.visited = True
             
-            
+            for _id, weight in vertex.adj.items():
+                other_vertex = self.get_vertex_by_id(_id)
+                if other_vertex.visited:
+                    continue
+                shortest_path = shortest_paths[vertex.id] + weight
+                if _id not in shortest_paths or shortest_path < shortest_paths[_id]:
+                    back_edges[_id] = vertex.id
+                    shortest_paths[_id] = shortest_path
+                    if _id == end_id:
+                        return self.build_path(back_edges, begin_id, end_id)
+                    
+                    if _id in vertexes.locator:
+                        vertexes.update(shortest_path+metric(other_vertex, end), other_vertex)
+                    else:
+                        vertexes.push(shortest_path+metric(other_vertex, end), other_vertex)
 
-        if not len(back_edges) or not found:
-            return ([], 0)
-        return self.build_path(back_edges, begin_id, end_id)
+        return ([], 0)
 
 def jumanji_path(start_row: int, start_col: int, end_row: int, end_col: int, graph: List[List[int]]) -> Tuple[List[List[int]], float]:
     ########################################
