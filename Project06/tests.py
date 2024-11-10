@@ -295,223 +295,223 @@ class GraphTests(unittest.TestCase):
                     self.assertTrue(is_valid_path(t_graph, subject))
                     t_graph.unvisit_vertices()
 
-#     def test_jumanji(self):
-#         start_row = 0
-#         start_col = 1
-#         end_row = 4
-#         end_col = 3
-#         graph = [
-#             [0, 0, 0, 0, 0],
-#             [0, 1, 1, 1, 0],
-#             [0, 0, 0, 0, 0],
-#             [1, 0, 1, 1, 1],
-#             [0, 0, 0, 0, 0],
-#         ]
-#         expected = [[0, 1], [0, 0], [1, 0], [2, 0], [2, 1], [3, 1], [4, 1], [4, 2], [4, 3]]
+    def test_jumanji(self):
+        start_row = 0
+        start_col = 1
+        end_row = 4
+        end_col = 3
+        graph = [
+            [0, 0, 0, 0, 0],
+            [0, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0],
+            [1, 0, 1, 1, 1],
+            [0, 0, 0, 0, 0],
+        ]
+        expected = [[0, 1], [0, 0], [1, 0], [2, 0], [2, 1], [3, 1], [4, 1], [4, 2], [4, 3]]
 
-#         path, distance = jumanji_path(start_row, start_col, end_row, end_col, graph)
-#         self.assertEqual(expected, path)
-#         self.assertEqual(8, distance)
+        path, distance = jumanji_path(start_row, start_col, end_row, end_col, graph)
+        self.assertEqual(expected, path)
+        self.assertEqual(8, distance)
 
-#         path, distance = jumanji_path(end_row, end_col, start_row, start_col, graph)
-#         expected.reverse()
-#         self.assertEqual(expected, path)
-#         self.assertEqual(8, distance)
+        path, distance = jumanji_path(end_row, end_col, start_row, start_col, graph)
+        expected.reverse()
+        self.assertEqual(expected, path)
+        self.assertEqual(8, distance)
 
-#         graph = [
-#             [0, 0, 0, 0, 0],
-#             [0, 0, 0, 0, 0],
-#             [1, 1, 1, 1, 1],
-#             [0, 0, 0, 0, 0],
-#             [0, 0, 0, 0, 0],
-#         ]
-#         start = (0, 0)
-#         end = (3, 3)
-#         path, distance = jumanji_path(*start , *end, graph)
-#         self.assertEqual([], path)
-#         self.assertEqual(0, distance)
+        graph = [
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [1, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+        ]
+        start = (0, 0)
+        end = (3, 3)
+        path, distance = jumanji_path(*start , *end, graph)
+        self.assertEqual([], path)
+        self.assertEqual(0, distance)
 
-#         start = (0, 0)
-#         end = (1, 3)
-#         path, distance = jumanji_path(*start , *end, graph)
-#         pathSouth = [[0, 0], [1, 0], [1, 1], [1, 2], [1, 3]]
-#         self.assertEqual(pathSouth, path)
-#         self.assertEqual(4, distance)
+        start = (0, 0)
+        end = (1, 3)
+        path, distance = jumanji_path(*start , *end, graph)
+        pathSouth = [[0, 0], [1, 0], [1, 1], [1, 2], [1, 3]]
+        self.assertEqual(pathSouth, path)
+        self.assertEqual(4, distance)
 
-#         graph = [
-#             [0, 0, 0, 0, 0],
-#             [0, 1, 1, 1, 0],
-#             [1, 1, 1, 1, 0],
-#             [0, 1, 1, 1, 0],
-#             [0, 0, 0, 0, 0],
-#         ]
-#         start = (0, 0)
-#         end = (4, 4)
-#         path, distance = jumanji_path(*start , *end, graph)
-#         self.assertEqual([[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [1, 4], [2, 4], [3, 4], [4, 4]], path)
-#         self.assertEqual(8, distance)
+        graph = [
+            [0, 0, 0, 0, 0],
+            [0, 1, 1, 1, 0],
+            [1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0],
+        ]
+        start = (0, 0)
+        end = (4, 4)
+        path, distance = jumanji_path(*start , *end, graph)
+        self.assertEqual([[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [1, 4], [2, 4], [3, 4], [4, 4]], path)
+        self.assertEqual(8, distance)
 
-#         # Vertical path has precedence (Top -> Bottom)
-#         graph[2][0] = 0
-#         start = (0, 0)
-#         end = (4, 4)
-#         path, distance = jumanji_path(*start , *end, graph)
-#         self.assertEqual([[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [4, 1], [4, 2], [4, 3], [4, 4]], path)
-#         self.assertEqual(8, distance)
+        # Vertical path has precedence (Top -> Bottom)
+        graph[2][0] = 0
+        start = (0, 0)
+        end = (4, 4)
+        path, distance = jumanji_path(*start , *end, graph)
+        self.assertEqual([[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [4, 1], [4, 2], [4, 3], [4, 4]], path)
+        self.assertEqual(8, distance)
 
-#         graph = [
-#             [0, 0],
-#             [0, 0]
-#         ]
-#         start = (0, 0)
-#         end = (1, 1)
-#         path, distance = jumanji_path(*start , *end, graph)
-#         self.assertEqual([[0, 0], [1, 0], [1, 1]], path)
-#         self.assertEqual(2, distance)
+        graph = [
+            [0, 0],
+            [0, 0]
+        ]
+        start = (0, 0)
+        end = (1, 1)
+        path, distance = jumanji_path(*start , *end, graph)
+        self.assertEqual([[0, 0], [1, 0], [1, 1]], path)
+        self.assertEqual(2, distance)
 
-#         # Vertical path has precedence (bottom->top)
-#         path, distance = jumanji_path(*end , *start, graph)
-#         self.assertEqual([[1, 1], [0, 1], [0, 0]], path)
-#         self.assertEqual(2, distance)
+        # Vertical path has precedence (bottom->top)
+        path, distance = jumanji_path(*end , *start, graph)
+        self.assertEqual([[1, 1], [0, 1], [0, 0]], path)
+        self.assertEqual(2, distance)
 
-#         graph = [
-#             [0, 1],
-#             [1, 0]
-#         ]
-#         start = (0, 0)
-#         end = (1, 1)
-#         path, distance = jumanji_path(*start , *end, graph)
-#         self.assertEqual([], path)
-#         self.assertEqual(0, distance)
+        graph = [
+            [0, 1],
+            [1, 0]
+        ]
+        start = (0, 0)
+        end = (1, 1)
+        path, distance = jumanji_path(*start , *end, graph)
+        self.assertEqual([], path)
+        self.assertEqual(0, distance)
 
-#         graph = [
-#             [0, 0, 0, 0, 0],
-#             [0, 1, 0, 1, 0],
-#             [0, 1, 0, 1, 0],
-#             [1, 1, 0, 1, 0],
-#             [0, 0, 0, 0, 0],
-#         ]
-#         start = (0, 0)
-#         end = (4, 0)
-#         path, distance = jumanji_path(*start , *end, graph)
-#         self.assertEqual([[0, 0], [0, 1], [0, 2], [1, 2], [2, 2], [3, 2], [4, 2], [4, 1], [4, 0]], path)
-#         self.assertEqual(8, distance)
+        graph = [
+            [0, 0, 0, 0, 0],
+            [0, 1, 0, 1, 0],
+            [0, 1, 0, 1, 0],
+            [1, 1, 0, 1, 0],
+            [0, 0, 0, 0, 0],
+        ]
+        start = (0, 0)
+        end = (4, 0)
+        path, distance = jumanji_path(*start , *end, graph)
+        self.assertEqual([[0, 0], [0, 1], [0, 2], [1, 2], [2, 2], [3, 2], [4, 2], [4, 1], [4, 0]], path)
+        self.assertEqual(8, distance)
 
-#         # Vertical path has precedence and south path is preferred
-#         graph = [
-#             [0, 0, 0, 0, 0],
-#             [0, 1, 0, 0, 0],
-#             [0, 1, 1, 1, 0],
-#             [0, 1, 1, 1, 0],
-#             [0, 1, 1, 1, 0],
-#             [0, 0, 0, 0, 0],
-#         ]
-#         start = (1, 0)
-#         end = (4, 4)
-#         path, distance = jumanji_path(*start , *end, graph)
-#         self.assertEqual([[1,0], [2,0], [3,0], [4,0], [5,0], [5,1], [5,2], [5,3], [5,4],  [4,4]], path)
-#         self.assertEqual(9, distance)
+        # Vertical path has precedence and south path is preferred
+        graph = [
+            [0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0],
+            [0, 1, 1, 1, 0],
+            [0, 1, 1, 1, 0],
+            [0, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0],
+        ]
+        start = (1, 0)
+        end = (4, 4)
+        path, distance = jumanji_path(*start , *end, graph)
+        self.assertEqual([[1,0], [2,0], [3,0], [4,0], [5,0], [5,1], [5,2], [5,3], [5,4],  [4,4]], path)
+        self.assertEqual(9, distance)
 
-# class ScheduleTests(unittest.TestCase):
-#     def test_add_requirements(self,):
-#         # Test 0 : Valid - Empty requirements
-#         r = { }
-#         s = Schedule()
-#         self.assertTrue(s.addRequirements(r))
-#         self.assertTrue(s.isEmpty())
+class ScheduleTests(unittest.TestCase):
+    def test_add_requirements(self,):
+        # Test 0 : Valid - Empty requirements
+        r = { }
+        s = Schedule()
+        self.assertTrue(s.addRequirements(r))
+        # self.assertTrue(s.isEmpty())
 
-#         # Test 1 : Valid - Simple requirements
-#         r = {
-#             'CSE 231': [], #CSE 231 has no requirements, it is a freshman class
-#             'CSE 232': ['CSE 231'],
-#             'CSE 331': ['CSE 232'],
-#         }
-#         s = Schedule()
-#         self.assertTrue(s.addRequirements(r))
-#         self.assertFalse(s.isEmpty())
+        # Test 1 : Valid - Simple requirements
+        r = {
+            'CSE 231': [], #CSE 231 has no requirements, it is a freshman class
+            'CSE 232': ['CSE 231'],
+            'CSE 331': ['CSE 232'],
+        }
+        s = Schedule()
+        self.assertTrue(s.addRequirements(r))
+        # self.assertFalse(s.isEmpty())
 
-#         # Test 2: Simple schedule with same class cycle
-#         r = {
-#             'CSE 231': ['CSE 231'],
-#         }
-#         s = Schedule()
-#         self.assertFalse(s.addRequirements(r))
-#         self.assertTrue(s.isEmpty())
+        # Test 2: Simple schedule with same class cycle
+        r = {
+            'CSE 231': ['CSE 231'],
+        }
+        s = Schedule()
+        self.assertFalse(s.addRequirements(r))
+        # self.assertTrue(s.isEmpty())
 
-#         # Test 3 : Invalid - Contains direct cycle
-#         r = {
-#             'CSE 231': [],
-#             'CSE 232': ['CSE 331'],
-#             'CSE 331': ['CSE 232'], # Easy cycle here
-#         }
-#         s = Schedule()
-#         self.assertFalse(s.addRequirements(r))
-#         self.assertTrue(s.isEmpty())
+        # Test 3 : Invalid - Contains direct cycle
+        r = {
+            'CSE 231': [],
+            'CSE 232': ['CSE 331'],
+            'CSE 331': ['CSE 232'], # Easy cycle here
+        }
+        s = Schedule()
+        self.assertFalse(s.addRequirements(r))
+        # self.assertTrue(s.isEmpty())
 
 
-#         # Test 4 : Valid - All classes have no requirements
-#         r = {
-#             'CSE 102': [],
-#             'MTH 103': [],
-#             'MTH 102': [],
-#         }
-#         s = Schedule()
-#         self.assertTrue(s.addRequirements(r))
-#         self.assertFalse(s.isEmpty())
+        # Test 4 : Valid - All classes have no requirements
+        r = {
+            'CSE 102': [],
+            'MTH 103': [],
+            'MTH 102': [],
+        }
+        s = Schedule()
+        self.assertTrue(s.addRequirements(r))
+        # self.assertFalse(s.isEmpty())
 
-#         # Test 5 : Valid - Only one class
-#         r = {
-#             'CSE 102': []
-#         }
-#         s = Schedule()
-#         self.assertTrue(s.addRequirements(r))  
-#         self.assertFalse(s.isEmpty())
+        # Test 5 : Valid - Only one class
+        r = {
+            'CSE 102': []
+        }
+        s = Schedule()
+        self.assertTrue(s.addRequirements(r))  
+        # self.assertFalse(s.isEmpty())
 
-#         # Test 6 : Valid - Bigger schedule
-#         r = {
-#             'MTH 132': [],
-#             'MTH 133': ['MTH 132'],
-#             'MTH 234': ['MTH 133'],
-#             'CSE 231': ['MTH 132'],
-#             'CSE 232': ['CSE 231'],
-#             'CSE 260': ['MTH 132'],
-#             'CSE 300': [],
-#             'CSE 331': ['CSE 260', 'CSE 232'],
-#             'CSE 335': ['CSE 331'],
-#             'CSE 404': ['CSE 331', 'MTH 234'],
-#             'CSE 498': ['CSE 300', 'CSE 335', 'MTH 234']
-#         }
-#         s = Schedule()
-#         self.assertTrue(s.addRequirements(r))
-#         self.assertFalse(s.isEmpty())
+        # Test 6 : Valid - Bigger schedule
+        r = {
+            'MTH 132': [],
+            'MTH 133': ['MTH 132'],
+            'MTH 234': ['MTH 133'],
+            'CSE 231': ['MTH 132'],
+            'CSE 232': ['CSE 231'],
+            'CSE 260': ['MTH 132'],
+            'CSE 300': [],
+            'CSE 331': ['CSE 260', 'CSE 232'],
+            'CSE 335': ['CSE 331'],
+            'CSE 404': ['CSE 331', 'MTH 234'],
+            'CSE 498': ['CSE 300', 'CSE 335', 'MTH 234']
+        }
+        s = Schedule()
+        self.assertTrue(s.addRequirements(r))
+        # self.assertFalse(s.isEmpty())
 
-#         # Test 7 : Invalid - Contains indirect cycle
-#         r = {
-#             'CSE 231': ['CSE 331'],
-#             'CSE 232': ['CSE 231'],
-#             'CSE 331': ['CSE 232'],
-#         }
-#         s = Schedule()
-#         self.assertFalse(s.addRequirements(r))
-#         self.assertTrue(s.isEmpty())
+        # Test 7 : Invalid - Contains indirect cycle
+        r = {
+            'CSE 231': ['CSE 331'],
+            'CSE 232': ['CSE 231'],
+            'CSE 331': ['CSE 232'],
+        }
+        s = Schedule()
+        self.assertFalse(s.addRequirements(r))
+        # self.assertTrue(s.isEmpty())
 
-#         # Test 8 : Invalid - Big schedule with cycle
-#         r = {
-#             'MTH 132': ['CSE 232'],
-#             'MTH 133': ['MTH 132'],
-#             'MTH 234': ['MTH 133'],
-#             'CSE 231': ['MTH 132'],
-#             'CSE 232': ['CSE 231'],
-#             'CSE 260': ['MTH 132'],
-#             'CSE 300': [],
-#             'CSE 331': ['CSE 260', 'CSE 232', 'CSE 498'],
-#             'CSE 335': ['CSE 331'],
-#             'CSE 404': ['CSE 331', 'MTH 234'],
-#             'CSE 498': ['CSE 300', 'CSE 335', 'MTH 234']
-#         }
-#         s = Schedule()
-#         self.assertFalse(s.addRequirements(r))
-#         self.assertTrue(s.isEmpty())
+        # Test 8 : Invalid - Big schedule with cycle
+        r = {
+            'MTH 132': ['CSE 232'],
+            'MTH 133': ['MTH 132'],
+            'MTH 234': ['MTH 133'],
+            'CSE 231': ['MTH 132'],
+            'CSE 232': ['CSE 231'],
+            'CSE 260': ['MTH 132'],
+            'CSE 300': [],
+            'CSE 331': ['CSE 260', 'CSE 232', 'CSE 498'],
+            'CSE 335': ['CSE 331'],
+            'CSE 404': ['CSE 331', 'MTH 234'],
+            'CSE 498': ['CSE 300', 'CSE 335', 'MTH 234']
+        }
+        s = Schedule()
+        self.assertFalse(s.addRequirements(r))
+        # self.assertTrue(s.isEmpty())
 
 #     def test_checkSchedule(self,):
 #         r = {

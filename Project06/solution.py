@@ -393,20 +393,25 @@ class Graph:
     def a_star(self, begin_id: str, end_id: str,
                metric: Callable[[Vertex, Vertex], float]) -> Tuple[List[str], float]:
         """
-        INSERT DOCSTRINGS HERE -- THEY ARE FOR POINTS
+        Finds the shortest path using the a-start method using the provided metric for heuristics
+        :param begin_id: Index of the starting node
+        :param end_id: Index of the ending node
+        :param metric: Heuristic function to use when calculating distance to the end
+        :return: Tuple where first element is a list of vertex IDs specifying a path from start_id to end_id
+                 and the second element is the cost of this path
         """
         start = self.get_vertex_by_id(begin_id)
         end = self.get_vertex_by_id(end_id)
         if start is None or end is None:
             return ([], 0)
+        
         vertexes = PriorityQueue()
         vertexes.push(metric(start, end), start)
         shortest_paths = {begin_id: 0}
         back_edges = {}
+
         while not vertexes.empty():
             _, vertex = vertexes.pop()
-            if not vertex:
-                continue
             if vertex.id == end_id:
                 return self.build_path(back_edges, begin_id, end_id)
 
@@ -414,6 +419,7 @@ class Graph:
                 other_vertex = self.get_vertex_by_id(_id)
                 if other_vertex.visited:
                     continue
+
                 shortest_path = shortest_paths[vertex.id] + weight
                 if _id not in shortest_paths or shortest_path < shortest_paths[_id]:
                     back_edges[_id] = vertex.id
@@ -426,10 +432,37 @@ class Graph:
         return ([], 0)
 
 def jumanji_path(start_row: int, start_col: int, end_row: int, end_col: int, graph: List[List[int]]) -> Tuple[List[List[int]], float]:
-    ########################################
-    # MODIFY BELOW #
-    ######################################## 
-    pass
+    """
+    Finds the shortest path from start point to end point avoiding blocked spaces and preferring vertical movement
+    :param start_row: Row of the starting node
+    :param start_col: Column of the starting node
+    :param end_row: Row of the ending node
+    :param end_col: Column of the ending node
+    :param graph: Graph of all open and blocked spaces
+    :return: Tuple where first element is a list of vertex IDs specifying a path from start_id to end_id
+                and the second element is the cost of this path
+    """
+    g = Graph()
+
+    directions = [(1,0), (-1,0), (0,-1), (0,1)]
+    for row in range(len(graph)):
+        for col in range(len(graph[0])):
+            if graph[row][col]:
+                continue
+            for dr, dc in directions:
+                new_r, new_c = row + dr, col + dc
+                if 0 <= new_r < len(graph) and 0 <= new_c < len(graph[0]):
+                    if graph[new_r][new_c]:
+                        continue
+                    g.add_to_graph(f"{row},{col}", f"{new_r},{new_c}", 1)
+
+    path, distance = g.a_star(f'{start_row},{start_col}', f'{end_row},{end_col}', Vertex.taxicab_distance)
+    if not path:
+        return ([], 0)
+    
+    cord_path = [[int(p.split(",")[0]), int(p.split(",")[1])] for p in path]
+
+    return (cord_path, distance)
 
 class Schedule:
     def __init__(self,):
@@ -442,15 +475,44 @@ class Schedule:
     ######################################## 
     def addRequirements(self, requirementsToAdd: Dict[str, List[str]]) -> bool:
         """
-        INSERT DOCSTRINGS HERE -- THEY ARE FOR POINTS
+        Adds courses and their requirements to the graph checking to make sure there are no cycles
+        :param requirementsToAdd: Map of courses and their requirements
+        :return: True if no cycle was found False if a cycle is found
         """
-        pass
+        for course, pre in requirementsToAdd.items():
+            for req in pre:
+                self.requirements.add_to_graph(course, req)
+
+
+        visited = set()
+        path = set()
+        def cycle(vertex):
+            vertex = self.requirements.get_vertex_by_id(vertex)
+            visited.add(vertex.id)
+            path.add(vertex.id)
+            if vertex:
+                for neighbor in vertex.adj:
+                    if neighbor not in visited:
+                        if cycle(neighbor):
+                            return True
+                    elif neighbor in path:
+                            return True
+            path.remove(vertex.id)
+            return False
+
+        for vertex in self.requirements.get_all_vertices():
+            if vertex.id not in visited:
+                if cycle(vertex.id):
+                    self.requirements = Graph()
+                    return False
+
+        return True
     
     def checkSchedule(self, classes: List[List[str]]) -> bool:
         """
         INSERT DOCSTRINGS HERE -- THEY ARE FOR POINTS
         """
-        pass
+        taken_classes = set()
 
 ########################################
 # DO NOT MODIFY BELOW #
