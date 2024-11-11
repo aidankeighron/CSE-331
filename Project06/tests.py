@@ -513,104 +513,104 @@ class ScheduleTests(unittest.TestCase):
         self.assertFalse(s.addRequirements(r))
         # self.assertTrue(s.isEmpty())
 
-#     def test_checkSchedule(self,):
-#         r = {
-#             'CSE 231': [], #CSE 231 has no requirements, it is a freshman class
-#             'CSE 232': ['CSE 231'],
-#             'CSE 331': ['CSE 232'],
-#         }
+    def test_checkSchedule(self,):
+        r = {
+            'CSE 231': [], #CSE 231 has no requirements, it is a freshman class
+            'CSE 232': ['CSE 231'],
+            'CSE 331': ['CSE 232'],
+        }
 
-#         s = Schedule()
-#         self.assertTrue(s.addRequirements(r))
-#         studentSchedule = [
-#             ['CSE 231'], ['CSE 232'], ['CSE 331']
-#         ]
-#         self.assertTrue(s.checkSchedule(studentSchedule)) # Returns true
+        s = Schedule()
+        self.assertTrue(s.addRequirements(r))
+        studentSchedule = [
+            ['CSE 231'], ['CSE 232'], ['CSE 331']
+        ]
+        self.assertTrue(s.checkSchedule(studentSchedule)) # Returns true
         
-#         s.requirements.unvisit_vertices()
-#         wrongSchedule = [
-#             ['CSE 232'], ['CSE 231'], ['CSE 331']
-#         ]
-#         self.assertFalse(s.checkSchedule(wrongSchedule)) # Returns false
+        s.requirements.unvisit_vertices()
+        wrongSchedule = [
+            ['CSE 232'], ['CSE 231'], ['CSE 331']
+        ]
+        self.assertFalse(s.checkSchedule(wrongSchedule)) # Returns false
 
-#         r = {
-#             'CSE 102': [],
-#             'MTH 103': [],
-#             'MTH 102': [],
-#         }
-#         s = Schedule()
-#         s.addRequirements(r)
-#         validSchedule = [
-#             ['CSE 102'], ['MTH 103']
-#         ]
-#         self.assertTrue(s.checkSchedule(validSchedule))
-#         s.requirements.unvisit_vertices()
+        r = {
+            'CSE 102': [],
+            'MTH 103': [],
+            'MTH 102': [],
+        }
+        s = Schedule()
+        s.addRequirements(r)
+        validSchedule = [
+            ['CSE 102'], ['MTH 103']
+        ]
+        self.assertTrue(s.checkSchedule(validSchedule))
+        s.requirements.unvisit_vertices()
 
-#         validSchedule = [
-#             ['MTH 103'], ['CSE 102']
-#         ]
-#         self.assertTrue(s.checkSchedule(validSchedule))
+        validSchedule = [
+            ['MTH 103'], ['CSE 102']
+        ]
+        self.assertTrue(s.checkSchedule(validSchedule))
 
-#         # Test 5 : Valid - Bigger schedule
-#         r = {
-#             'MTH 132': [],
-#             'MTH 133': ['MTH 132'],
-#             'MTH 234': ['MTH 133'],
-#             'CSE 231': ['MTH 132'],
-#             'CSE 232': ['CSE 231'],
-#             'CSE 260': ['MTH 132'],
-#             'CSE 300': [],
-#             'CSE 331': ['CSE 260', 'CSE 232'],
-#             'CSE 335': ['CSE 331'],
-#             'CSE 404': ['CSE 331', 'MTH 234'],
-#             'CSE 498': ['CSE 300', 'CSE 335', 'MTH 234']
-#         }
-#         s = Schedule()
-#         s.addRequirements(r)
+        # Test 5 : Valid - Bigger schedule
+        r = {
+            'MTH 132': [],
+            'MTH 133': ['MTH 132'],
+            'MTH 234': ['MTH 133'],
+            'CSE 231': ['MTH 132'],
+            'CSE 232': ['CSE 231'],
+            'CSE 260': ['MTH 132'],
+            'CSE 300': [],
+            'CSE 331': ['CSE 260', 'CSE 232'],
+            'CSE 335': ['CSE 331'],
+            'CSE 404': ['CSE 331', 'MTH 234'],
+            'CSE 498': ['CSE 300', 'CSE 335', 'MTH 234']
+        }
+        s = Schedule()
+        s.addRequirements(r)
 
-#         validSchedule = [
-#             ['MTH 132', 'CSE 300'], 
-#             ['CSE 231', 'MTH 133', 'CSE 260'], 
-#             ['CSE 232', 'MTH 234'],
-#             ['CSE 331', ],
-#             ['CSE 335', 'CSE 404'],
-#             ['CSE 498']
-#         ]
-#         self.assertTrue(s.checkSchedule(validSchedule))
-#         s.requirements.unvisit_vertices()
+        validSchedule = [
+            ['MTH 132', 'CSE 300'], 
+            ['CSE 231', 'MTH 133', 'CSE 260'], 
+            ['CSE 232', 'MTH 234'],
+            ['CSE 331', ],
+            ['CSE 335', 'CSE 404'],
+            ['CSE 498']
+        ]
+        self.assertTrue(s.checkSchedule(validSchedule))
+        s.requirements.unvisit_vertices()
 
-#         invalidSchedule = [
-#             ['MTH 132', 'CSE 300', 'CSE 231'], 
-#             ['MTH 133', 'CSE 260'], 
-#             ['CSE 232', 'MTH 234'],
-#             ['CSE 331', ],
-#             ['CSE 335', 'CSE 404'],
-#             ['CSE 498']
-#         ]
-#         self.assertFalse(s.checkSchedule(invalidSchedule))
-#         s.requirements.unvisit_vertices()
+        invalidSchedule = [
+            ['MTH 132', 'CSE 300', 'CSE 231'], 
+            ['MTH 133', 'CSE 260'], 
+            ['CSE 232', 'MTH 234'],
+            ['CSE 331', ],
+            ['CSE 335', 'CSE 404'],
+            ['CSE 498']
+        ]
+        self.assertFalse(s.checkSchedule(invalidSchedule))
+        s.requirements.unvisit_vertices()
 
-#         invalidSchedule = [
-#             ['MTH 132', 'CSE 300'], 
-#             ['CSE 231', 'MTH 133', 'CSE 260', 'CSE 232'], 
-#             ['MTH 234'],
-#             ['CSE 331', ],
-#             ['CSE 335', 'CSE 404'],
-#             ['CSE 498']
-#         ]
-#         self.assertFalse(s.checkSchedule(invalidSchedule))
-#         s.requirements.unvisit_vertices()
+        invalidSchedule = [
+            ['MTH 132', 'CSE 300'], 
+            ['CSE 231', 'MTH 133', 'CSE 260', 'CSE 232'], 
+            ['MTH 234'],
+            ['CSE 331', ],
+            ['CSE 335', 'CSE 404'],
+            ['CSE 498']
+        ]
+        self.assertFalse(s.checkSchedule(invalidSchedule))
+        s.requirements.unvisit_vertices()
 
-#         invalidSchedule = [
-#             ['MTH 132', 'CSE 300'], 
-#             ['CSE 231', 'MTH 133', 'CSE 260', 'CSE 404'], 
-#             ['CSE 232', 'MTH 234'],
-#             ['CSE 331'],
-#             ['CSE 335'],
-#             ['CSE 498']
-#         ]
-#         self.assertFalse(s.checkSchedule(invalidSchedule))
-#         s.requirements.unvisit_vertices()
+        invalidSchedule = [
+            ['MTH 132', 'CSE 300'], 
+            ['CSE 231', 'MTH 133', 'CSE 260', 'CSE 404'], 
+            ['CSE 232', 'MTH 234'],
+            ['CSE 331'],
+            ['CSE 335'],
+            ['CSE 498']
+        ]
+        self.assertFalse(s.checkSchedule(invalidSchedule))
+        s.requirements.unvisit_vertices()
 
 
 if __name__ == '__main__':

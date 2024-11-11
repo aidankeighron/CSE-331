@@ -510,9 +510,24 @@ class Schedule:
     
     def checkSchedule(self, classes: List[List[str]]) -> bool:
         """
-        INSERT DOCSTRINGS HERE -- THEY ARE FOR POINTS
+        Checks to make sure a schedule is possible to complete
+        :param classes: Map of courses to take grouped by semester
+        :return: True if schedule is possible False if it is not
         """
         taken_classes = set()
+
+        for semester in classes:
+            for course in semester:
+                vertex = self.requirements.get_vertex_by_id(course)
+                if vertex is None:
+                    continue
+                for prereq in vertex.adj:
+                    if prereq not in taken_classes:
+                        return  False
+                    
+            taken_classes.update(semester)
+        
+        return True
 
 ########################################
 # DO NOT MODIFY BELOW #
