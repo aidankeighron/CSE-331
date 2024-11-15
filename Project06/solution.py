@@ -181,6 +181,13 @@ class Graph:
 
     __str__ = __repr__
 
+    def empty(self) -> bool:
+        """
+        DO NOT MODIFY
+        :return: True if Graph is empty
+        """
+        return self.size == 0
+
     def plot(self) -> None:
         """
         DO NOT MODIFY
@@ -480,6 +487,8 @@ class Schedule:
         :return: True if no cycle was found False if a cycle is found
         """
         for course, pre in requirementsToAdd.items():
+            if not pre:
+                self.requirements.add_to_graph(course)
             for req in pre:
                 self.requirements.add_to_graph(course, req)
 

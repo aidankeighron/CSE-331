@@ -418,7 +418,7 @@ class ScheduleTests(unittest.TestCase):
         r = { }
         s = Schedule()
         self.assertTrue(s.addRequirements(r))
-        # self.assertTrue(s.isEmpty())
+        self.assertTrue(s.isEmpty())
 
         # Test 1 : Valid - Simple requirements
         r = {
@@ -428,7 +428,7 @@ class ScheduleTests(unittest.TestCase):
         }
         s = Schedule()
         self.assertTrue(s.addRequirements(r))
-        # self.assertFalse(s.isEmpty())
+        self.assertFalse(s.isEmpty())
 
         # Test 2: Simple schedule with same class cycle
         r = {
@@ -436,7 +436,7 @@ class ScheduleTests(unittest.TestCase):
         }
         s = Schedule()
         self.assertFalse(s.addRequirements(r))
-        # self.assertTrue(s.isEmpty())
+        self.assertTrue(s.isEmpty())
 
         # Test 3 : Invalid - Contains direct cycle
         r = {
@@ -446,7 +446,7 @@ class ScheduleTests(unittest.TestCase):
         }
         s = Schedule()
         self.assertFalse(s.addRequirements(r))
-        # self.assertTrue(s.isEmpty())
+        self.assertTrue(s.isEmpty())
 
 
         # Test 4 : Valid - All classes have no requirements
@@ -457,7 +457,7 @@ class ScheduleTests(unittest.TestCase):
         }
         s = Schedule()
         self.assertTrue(s.addRequirements(r))
-        # self.assertFalse(s.isEmpty())
+        self.assertFalse(s.isEmpty())
 
         # Test 5 : Valid - Only one class
         r = {
@@ -465,7 +465,7 @@ class ScheduleTests(unittest.TestCase):
         }
         s = Schedule()
         self.assertTrue(s.addRequirements(r))  
-        # self.assertFalse(s.isEmpty())
+        self.assertFalse(s.isEmpty())
 
         # Test 6 : Valid - Bigger schedule
         r = {
@@ -483,7 +483,7 @@ class ScheduleTests(unittest.TestCase):
         }
         s = Schedule()
         self.assertTrue(s.addRequirements(r))
-        # self.assertFalse(s.isEmpty())
+        self.assertFalse(s.isEmpty())
 
         # Test 7 : Invalid - Contains indirect cycle
         r = {
@@ -493,7 +493,7 @@ class ScheduleTests(unittest.TestCase):
         }
         s = Schedule()
         self.assertFalse(s.addRequirements(r))
-        # self.assertTrue(s.isEmpty())
+        self.assertTrue(s.isEmpty())
 
         # Test 8 : Invalid - Big schedule with cycle
         r = {
@@ -511,7 +511,7 @@ class ScheduleTests(unittest.TestCase):
         }
         s = Schedule()
         self.assertFalse(s.addRequirements(r))
-        # self.assertTrue(s.isEmpty())
+        self.assertTrue(s.isEmpty())
 
     def test_checkSchedule(self,):
         r = {
